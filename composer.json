@@ -1,0 +1,26 @@
+{
+    "name": "mfrost503/wheedle",
+    "type": "library",
+    "license": "MIT",
+    "description": "PHP Twitter Library",
+    "keywords": ["Twitter", "OAuth 1", "Twitter API"],
+    "homepage": "https://github.com/mfrost503/wheedle",
+    "authors": [
+        {
+            "name": "Matt Frost",
+            "email": "mfrost.design@gmail.com",
+            "homepage": "http://shortwhitebaldguy.com",
+            "role": "developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "guzzlehttp/guzzle": ">=5.0.0",
+        "mfrost503/snaggle": ">=0.1.1"
+    },
+    "autoloader": {
+        "psr-0": {
+             "Wheedle": "src"
+        }
+    }
+}
