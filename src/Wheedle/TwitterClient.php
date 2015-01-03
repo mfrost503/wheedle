@@ -3,7 +3,10 @@ namespace Wheedle;
 
 use GuzzleHttp\Client;
 use Snaggle\Client\Header\Header;
+use Snaggle\Client\Signatures\HmacSha1;
 use Snaggle\Client\Signatures\SignatureInterface;
+use Snaggle\Client\Credentials\AccessCredentials;
+use Snaggle\Client\Credentials\ConsumerCredentials;
 
 /**
  * @author Matt Frost
@@ -12,14 +15,8 @@ use Snaggle\Client\Signatures\SignatureInterface;
  *
  * A Twitter client class that is responsible for storing the HttpRequest Object
  */
-class TwitterClient
+class TwitterClient extends Client
 {
-    /**
-     * @var GuzzleHttp\Client $client
-     * Http client used to make the requests
-     */
-    private $client;
-
     /**
      * @var Snaggle\Client\Header\Header $header
      * Header object that is used to generate the OAuth 1.0 header
@@ -33,25 +30,199 @@ class TwitterClient
     private $signature;
 
     /**
-     * @return GuzzleHttp\Client
-     *
-     * An accessor method for retrieving a preconfigured HttpClient or a new one
+     * @var Snaggle\Client\Credentials\AccessCredentials
+     * A Snaggle\AccessCredentials instance with the appropriate key/secret
      */
-    public function getClient()
+    private $accessCredentials;
+
+    /**
+     * @var Snaggle\Client\Credentials\ConsumerCredentials
+     * A Snaggle\ConsumerCredentials instance with the appropriate key/secret
+     */
+    private $consumerCredentials;
+
+    /**
+     * @var string $resourceUrl
+     * String representing the location of the resource
+     */
+    private $resourceUrl;
+
+    /**
+     * @var string $httpMethod
+     * String representing the HTTP method with which to use the request
+     */
+    private $httpMethod;
+
+    /**
+     * @var int $timestamp
+     *
+     * A timestamp for the request
+     */
+    private $timestamp = 0;
+
+    /**
+     * @var string $nonce
+     *
+     * A nonce for the request
+     */
+    private $nonce = null;
+
+    public function __construct(AccessCredentials $accessCredentials, ConsumerCredentials $consumerCredentials)
     {
-        if ($this->client instanceof Client) {
-            return $this->client;
-        }
-        return new Client;
+        $this->accessCredentials = $accessCredentials;
+        $this->consumerCredentials = $consumerCredentials;
+        parent::__construct();
     }
 
     /**
-     * @param \GuzzleHttp\Client $client
+     * @return Snaggle\Client\Header\Header
      *
-     * Set the Http Client
+     * Accessor method to retrieve a set header or create a new instance of header
      */
-    public function setClient(\GuzzleHttp\Client $client)
+    public function getHeader()
     {
-        $this->client = $client;
+        if (!$this->header instanceof Header) {
+            $this->header = new Header;
+        }
+        return $this->header;
+    }
+
+    /**
+     * @param Snaggle\Client\Header\Header $header
+     *
+     * Access method to set an instance of header
+     */
+    public function setHeader(Header $header)
+    {
+        $this->header = $header;
+    }
+
+    /**
+     * @return Snaggle\Client\Signatures\HmacSha1
+     *
+     * Accessor method to retrieve a set Signature or create a new instance
+     */
+    public function getSignature()
+    {
+        if (!$this->signature instanceof HmacSha1) {
+            $this->signature = new HmacSha1($this->consumerCredentials, $this->accessCredentials);
+        }
+        return $this->signature;
+    }
+
+    /**
+     * @param Snaggle\Client\Signatures\HmacSha1 $signature
+     *
+     * Accessor method for setting a preconfigured signature
+     */
+    public function setSignature(HmacSha1 $signature)
+    {
+        $this->signature = $signature;
+    }
+
+    /**
+     * @return string
+     *
+     * Method to return the Resource URL
+     */
+    public function getResourceUrl()
+    {
+        return $this->resourceUrl;
+    }
+
+    /**
+     * @param string $resourceUrl
+     *
+     * Method to set the resource url
+     */
+    public function setResourceUrl($url)
+    {
+        $this->resourceUrl = $url;
+    }
+
+    /**
+     * @return string
+     *
+     * Method to retrieve the HTTP Method
+     */
+    public function getHttpMethod()
+    {
+        return strtoupper($this->httpMethod);
+    }
+
+    /**
+     * @param string $httpMethod
+     *
+     * Method to set the Http Method
+     */
+    public function setHttpMethod($httpMethod)
+    {
+        $this->httpMethod = strtoupper($httpMethod);
+    }
+
+    /**
+     * @return int
+     *
+     * Method to get a signed timestamp
+     */
+    public function getTimestamp()
+    {
+        return $this->timestamp;
+    }
+
+    /**
+     * @param int $timestamp
+     *
+     * Method to set a timestamp
+     */
+    public function setTimestamp($timestamp)
+    {
+        $this->timestamp = $timestamp;
+    }
+
+    /**
+     * @return string
+     *
+     * Method to retrieve the nonce
+     */
+    public function getNonce()
+    {
+        return $this->nonce();
+    }
+
+    /**
+     * @param string $nonce
+     *
+     * Method to set a nonce
+     */
+    public function setNonce($nonce)
+    {
+        $this->nonce = $nonce;
+    }
+
+    /**
+     * @return string
+     *
+     * Method to build the Authorization Header
+     */
+    public function getAuthorizationHeader()
+    {
+        $timestamp = $this->timestamp;
+        $nonce = $this->nonce;
+        $signature = $this->getSignature();
+        $signature->setResourceURL($this->resourceUrl);
+        $signature->setHttpMethod($this->httpMethod);
+        
+        if ($timestamp !== 0) {
+            $signature->setTimestamp($timestamp);
+        }
+
+        if ($nonce !== null) {
+            $signature->setNonce($this->nonce);
+        }
+
+        $header = $this->getHeader();
+        $header->setSignature($signature);
+        return $header->createAuthorizationHeader();
     }
 }
