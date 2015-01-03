@@ -100,16 +100,16 @@ class TwitterClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testEnsureHeaderIsBeingCreated()
     {
-        $timestamp = time();
-        $nonce = 'testingNonce';
+        $timestamp = 1420302568;
+        $nonce = '3e448845e49f46fc47335a8537333ada';
         $signature = new HmacSha1($this->consumerToken, $this->accessToken);
-        $signature->setResourceURL('http://example.com');
-        $signature->setHttpMethod('POST');
+        $signature->setResourceURL('http://api.twitter.com/1.1/statuses/show/460095281871073282.json');
+        $signature->setHttpMethod('GET');
         $signature->setNonce($nonce);
         $signature->setTimestamp($timestamp);
         $matchSignature = rawurlencode($signature->sign());
-        $this->twitter->setResourceUrl('http://example.com');
-        $this->twitter->setHttpMethod('POST');
+        $this->twitter->setResourceUrl('http://api.twitter.com/1.1/statuses/show/460095281871073282.json');
+        $this->twitter->setHttpMethod('GET');
         $this->twitter->setNonce($nonce);
         $this->twitter->setTimestamp($timestamp);
         $header = $this->twitter->getAuthorizationHeader();

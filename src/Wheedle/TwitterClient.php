@@ -13,7 +13,7 @@ use Snaggle\Client\Credentials\ConsumerCredentials;
  * @license http://opensource.org/licenses/MIT MIT
  * @package Wheedle
  *
- * A Twitter client class that is responsible for storing the HttpRequest Object
+ * A Twitter client that extends Guzzle or encapsulates the OAuth madness
  */
 class TwitterClient extends Client
 {
@@ -253,7 +253,7 @@ class TwitterClient extends Client
     {
         $this->postFields = $postFields;
     }
-    
+
     /**
      * @return string
      *
