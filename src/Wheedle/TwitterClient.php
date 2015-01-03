@@ -67,6 +67,20 @@ class TwitterClient extends Client
      */
     private $nonce = null;
 
+    /**
+     * @var string $verifier
+     *
+     * Verifier that is part of the temporary token exchange
+     */
+    private $verifier = null;
+
+    /**
+     * @var Array $postFields
+     *
+     * Post requests require any form fields to be included for the signature, you can set them here
+     */
+    private $postFields = [];
+
     public function __construct(AccessCredentials $accessCredentials, ConsumerCredentials $consumerCredentials)
     {
         $this->accessCredentials = $accessCredentials;
@@ -203,22 +217,64 @@ class TwitterClient extends Client
     /**
      * @return string
      *
+     * Method to set the OAuth verifier for token requests
+     */
+    public function getVerifier()
+    {
+        return $this->verifier;
+    }
+
+    /**
+     * @param string $verifier
+     *
+     * Method to set the verifier for token requests
+     */
+    public function setVerifier($verifier)
+    {
+        $this->verifier = $verifier;
+    }
+
+    /**
+     * @return Array
+     *
+     * Method for retrieving the set post fields
+     */
+    public function getPostFields()
+    {
+        return $this->postFields;
+    }
+
+    /**
+     * @param Array $postFields
+     *
+     * Method for setting the post fields
+     */
+    public function setPostFields(Array $postFields)
+    {
+        $this->postFields = $postFields;
+    }
+    
+    /**
+     * @return string
+     *
      * Method to build the Authorization Header
      */
     public function getAuthorizationHeader()
     {
-        $timestamp = $this->timestamp;
-        $nonce = $this->nonce;
         $signature = $this->getSignature();
         $signature->setResourceURL($this->resourceUrl);
         $signature->setHttpMethod($this->httpMethod);
         
-        if ($timestamp !== 0) {
-            $signature->setTimestamp($timestamp);
+        if ($this->timestamp !== 0) {
+            $signature->setTimestamp($this->timestamp);
         }
 
-        if ($nonce !== null) {
+        if ($this->nonce !== null) {
             $signature->setNonce($this->nonce);
+        }
+
+        if ($this->verifier !== null) {
+            $signature->setVerifier($this->verifier);
         }
 
         $header = $this->getHeader();
