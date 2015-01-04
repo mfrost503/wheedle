@@ -127,11 +127,18 @@ class TwitterClient extends Client
     /**
      * @param Snaggle\Client\Signatures\HmacSha1 $signature
      *
-     * Accessor method for setting a preconfigured signature
+     * Accessor method for setting a preconfigured signature which will set the other
+     * properties from the data contained in the signature
      */
     public function setSignature(HmacSha1 $signature)
     {
         $this->signature = $signature;
+        $this->resourceUrl = $signature->getResourceURL();
+        $this->httpMethod = $signature->getHttpMethod();
+        $this->nonce = $signature->getNonce();
+        $this->timestamp = $signature->getTimestamp();
+        $this->verifier = $signature->getVerifier();
+        $this->postFields = $signature->getPostFields();
     }
 
     /**

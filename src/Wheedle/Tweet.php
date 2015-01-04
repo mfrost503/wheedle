@@ -34,7 +34,7 @@ class Tweet
      *
      * Method to retrieve a tweet by id
      */
-    public function retrieve($id, Array $options=[])
+    public function retrieve($id, Array $options = [])
     {
         try {
             $endpoint = $this->baseUrl . 'show/' . $id . '.json';
@@ -47,7 +47,34 @@ class Tweet
             ]);
             return $response->getBody();
         } catch(GuzzleHttp\Exception\ClientException $e) {
-            
+            return $e->getMessage();
+        }
+    }
+
+    /**
+     * @param Array $options
+     * @return string
+     *
+     * Retrieve a collection of mentions for the authenticated user
+     */
+    public function retrieveMentions(Array $options = [])
+    {
+        try {
+            $queryString = '?';
+            foreach ($options as $key => $value) {
+                $queryString .= $key .'=' . $value . '&';
+            }
+            $endpoint = $this->baseUrl . 'mentions_timeline.json' . substr($queryString, 0, -1);
+            $this->client->setHttpMethod('GET');
+            $this->client->setResourceUrl($endpoint);
+            $response = $this->client->get($endpoint, [
+                'headers' => [
+                    'Authorization' => $this->client->getAuthorizationHeader()
+                ]
+            ]);
+            return $response->getBody();
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            return $e->getMessage();
         }
     }
 }
