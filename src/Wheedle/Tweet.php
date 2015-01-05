@@ -1,6 +1,5 @@
 <?php
 namespace Wheedle;
-
 /**
  * @author Matt Frost <mfrost.design@gmail.com>
  * @package Wheedle
@@ -8,6 +7,11 @@ namespace Wheedle;
  */
 class Tweet
 {
+    /**
+     * Use the options filter trait to eliminate unavailable query string params
+     */
+    use OptionsFilter;
+
     /**
      * @var TwitterClient $client
      *
@@ -150,22 +154,5 @@ class Tweet
         } catch (GuzzleHttp\Exception\ClientException $e) {
             return $e->getMessage();
         }
-    }
-
-    /**
-     * @param Array $availableOptions An array of available parameters
-     * @param Array $options An array of the provided parameters
-     * @return Arrary
-     *
-     * Method to filter out any unavailable parameters
-     */
-    public function filterOptions($availableOptions, $options)
-    {
-        array_walk($options, function($key, $value) use ($availableOptions) {
-            if (!array_key_exists($key, $availableOptions)) {
-                unset($options[$key]);
-            }
-        });
-        return $options;
     }
 }
