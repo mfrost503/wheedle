@@ -76,7 +76,11 @@ Optionally you can pass an array of parameters to give you back what you need, f
 These parameters are completely optional, so you can include all or none of them
 
 ```php
-$parameters = ['trim_user' => true, 'include_my_retweet' => true, 'include_entities' => false];
+$parameters = [
+    'trim_user' => true, 
+    'include_my_retweet' => true, 
+    'include_entities' => false
+];
 $tweet->retrieve(123456, $parameters);
 ```
 
