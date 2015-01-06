@@ -18,25 +18,25 @@ use \Snaggle\Client\Credentials\ConsumerCredentials;
 class TwitterClient extends Client
 {
     /**
-     * @var Snaggle\Client\Header\Header $header
+     * @var \Snaggle\Client\Header\Header $header
      * Header object that is used to generate the OAuth 1.0 header
      */
     private $header;
 
     /**
-     * @var Snaggle\Client\Signatures\SignatureInterface $signature
+     * @var \Snaggle\Client\Signatures\SignatureInterface $signature
      * A signature type used to generate the OAuth 1.0 signature
      */
     private $signature;
 
     /**
-     * @var Snaggle\Client\Credentials\AccessCredentials
+     * @var \Snaggle\Client\Credentials\AccessCredentials
      * A Snaggle\AccessCredentials instance with the appropriate key/secret
      */
     private $accessCredentials;
 
     /**
-     * @var Snaggle\Client\Credentials\ConsumerCredentials
+     * @var \Snaggle\Client\Credentials\ConsumerCredentials
      * A Snaggle\ConsumerCredentials instance with the appropriate key/secret
      */
     private $consumerCredentials;
@@ -81,6 +81,10 @@ class TwitterClient extends Client
      */
     private $postFields = [];
 
+    /**
+     * @param Snaggle\Client\Credentials\AccessCredentials $accessCredentials
+     * @param Snaggle\Client\Credentials\ConsumerCredentials $consumerCredentials
+     */
     public function __construct(AccessCredentials $accessCredentials, ConsumerCredentials $consumerCredentials)
     {
         $this->accessCredentials = $accessCredentials;

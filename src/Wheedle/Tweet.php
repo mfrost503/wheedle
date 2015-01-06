@@ -64,7 +64,7 @@ class Tweet
                 ]
             ]);
             return $response->getBody();
-        } catch(GuzzleHttp\Exception\ClientException $e) {
+        } catch(\GuzzleHttp\Exception\ClientException $e) {
             return $e->getMessage();
         }
     }
@@ -105,7 +105,7 @@ class Tweet
                 ]
             ]);
             return $response->getBody();
-        } catch (GuzzleHttp\Exception\ClientException $e) {
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
             return $e->getMessage();
         }
     }
@@ -153,7 +153,7 @@ class Tweet
                 ]
             ]);
             return $response->getBody();
-        } catch (GuzzleHttp\Exception\ClientException $e) {
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
             return $e->getMessage();
         }
     }
@@ -193,7 +193,7 @@ class Tweet
                 ]
             ]);
             return $response->getBody();
-        } catch(GuzzleHttp\Exception\ClientException $e) {
+        } catch(\GuzzleHttp\Exception\ClientException $e) {
             return $e->getMessage();
         }
     }
