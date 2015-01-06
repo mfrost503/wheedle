@@ -2,6 +2,8 @@
 #### A PHP Twitter library
 
 <img src="https://travis-ci.org/mfrost503/wheedle.svg?branch=master"/>
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mfrost503/wheedle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mfrost503/wheedle/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/mfrost503/wheedle/badges/build.png?b=master)](https://scrutinizer-ci.com/g/mfrost503/wheedle/build-status/master)
 
 This library is currently a work in progress, more examples to follow as they get built out!
 
