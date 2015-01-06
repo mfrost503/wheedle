@@ -155,4 +155,44 @@ class Tweet
             return $e->getMessage();
         }
     }
+
+    /**
+     * @param Array $options
+     *   - count int number of results to return, up to 200
+     *   - since_id int returns results with an ID more recent than the provided ID
+     *   - max_id int returns results with an ID older than the provided ID
+     *   - include_entities boolean entities node will be excluded when set to false
+     *   - exclude_replies boolean when true, prevents replies from appearing in the returned timeline
+     *   - contributor_details boolean when true enhances the contributors element of the response
+     * @return string
+     *
+     * Method to retrieve the home timeline for the authenticated user
+     */
+    public function retrieveHomeTimeline(Array $options = [])
+    {
+        try {
+            $availableOptions = [
+                'count',
+                'since_id',
+                'max_id',
+                'include_entities',
+                'exclude_replies',
+                'contributor_details'
+            ];
+            $options = $this->filterOptions($availableOptions, $options);
+            $queryString = '?';
+            $queryString .= http_build_query($options);
+            $endpoint = $this->baseUrl . 'home_timeline.json' . $queryString;
+            $this->client->setHttpMethod('GET');
+            $this->client->setResourceUrl($endpoint);
+            $response = $this->client->get($endpoint, [
+                'headers' => [
+                    'Authorization' => $this->client->getAuthorizationHeader()
+                ]
+            ]);
+            return $response->getBody();
+        } catch(GuzzleHttp\Exception\ClientException $e) {
+            return $e->getMessage();
+        }
+    }
 }
