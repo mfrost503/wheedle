@@ -81,7 +81,7 @@ $data = $tweet->retrieve(123456);
 
 Optionally you can pass an array of parameters to give you back what you need, for retrieve the parameters are:
 
-* trim_user boolean returns a user object with just numerical ID when true
+* *trim_user* _boolean_ returns a user object with just numerical ID when true
 * include_my_retweet boolean when true any tweets RT'd by authenticated user will have current_user_retweet node
 * include_entites boolean entities node will be excluded when set to false
 
