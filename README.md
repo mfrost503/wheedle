@@ -37,9 +37,21 @@ This example will retrieve the last 20 mentions for the authenticated user, but 
 $tweet->retrieveMentions(['count' => 200]);
 ```
 
+The vast majority (if not all) of these methods have optional parameters, each method will have them documented here. They are all optional, any combination of parameters will work. The basic format for adding parameters is:
+```php
+$parameters = [
+    'trim_user' => true, 
+    'include_my_retweet' => true, 
+    'include_entities' => false
+];
+$tweet->retrieve(123456, $parameters);
+```
+
+Methods may have more than one required parameter, so your parameters method will always be last, after the required parameters.
+
 ### Tweet
 
-The Tweet class will allow you to retrieve and post tweets (or statuses) and give you the ability to tailor the results to what you need.
+The Tweet class will allow you to retrieve and post tweets (or statuses).
 
 #### Retrieve
 
@@ -75,12 +87,37 @@ Optionally you can pass an array of parameters to give you back what you need, f
 
 These parameters are completely optional, so you can include all or none of them
 
+#### Mentions
+
+To retrieve a collection of tweets in which the authenticated user was mentioned (@yourhandle), you can use the retrieveMentions method:
+
 ```php
-$parameters = [
-    'trim_user' => true, 
-    'include_my_retweet' => true, 
-    'include_entities' => false
-];
-$tweet->retrieve(123456, $parameters);
+<?php
+use Snaggle\Client\Credentials\AccessCredentials;
+use Snaggle\Client\Credentials\ConsumerCredentials;
+use Wheedle\TwitterClient;
+use Wheedle\Tweet;
+
+$accessToken = new AccessCredentials;
+$accessToken->setIdentifier('YOUR_ACCESS_TOKEN');
+$accessToken->setSecret('YOUR_ACCESS_SECRET');
+
+$consumerToken = new ConsumerCredentials;
+$consumerToken->setIdentifier('YOUR_CONSUMER_KEY');
+$consumerToken->setSecret('YOUR_CONSUMER_SECRET');
+
+$client = new TwitterClient($accessToken, $consumerToken);
+
+$tweet = new Tweet($client);
+
+$data = $tweet->retrieveMentions();
 ```
 
+The optional parameters for this method are:
+
+* count int number of tweets to return up to 200
+* since_id int returns results with an ID more recent than the provided ID
+* max_id int returns results with an ID older than the provided ID
+* trim_user boolean when true returns the user object with only an ID
+* contributor_details boolean when true enhances the contributors element of the response
+* include_entities boolean entities node will be excluded when set to false
