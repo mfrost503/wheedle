@@ -51,9 +51,9 @@ class Tweet
             ];
 
             $options = $this->filterOptions($availableOptions, $options);
-            $queryString = '?';
+            $queryString = (empty($options)) ? '' : '?';
             $queryString .= http_build_query($options);
-            $endpoint = $this->baseUrl . 'show/' . $id . '.json';
+            $endpoint = $this->baseUrl . 'show/' . $id . '.json' . $queryString;
             $this->client->setHttpMethod('get');
             $this->client->setResourceUrl($endpoint);
             $response = $this->client->get($endpoint, [
@@ -92,9 +92,9 @@ class Tweet
             ];
 
             $options = $this->filterOptions($availableOptions, $options);
-            $queryString = '?';
+            $queryString = (empty($options)) ? '' : '?';
             $queryString .= http_build_query($options);
-            $endpoint = $this->baseUrl . 'mentions_timeline.json' . substr($queryString, 0, -1);
+            $endpoint = $this->baseUrl . 'mentions_timeline.json' . $queryString;
             $this->client->setHttpMethod('GET');
             $this->client->setResourceUrl($endpoint);
             $response = $this->client->get($endpoint, [
@@ -140,7 +140,7 @@ class Tweet
 
             // filter out options that aren't available
             $options = $this->filterOptions($availableOptions, $options);
-            $queryString = '?';
+            $queryString = (empty($options)) ? '' : '?';
             $queryString .= http_build_query($options);
             $endpoint = $this->baseUrl . 'user_timeline.json' . $queryString;
             $this->client->setHttpMethod('GET');

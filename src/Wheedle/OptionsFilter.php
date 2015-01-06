@@ -19,8 +19,8 @@ trait OptionsFilter
      */
     public function filterOptions($availableOptions, $options)
     {
-        array_walk($options, function($key, $value) use ($availableOptions) {
-            if (!array_key_exists($key, $availableOptions)) {
+        array_walk($options, function($value, $key) use ($availableOptions, &$options) {
+            if (!in_array($key, $availableOptions)) {
                 unset($options[$key]);
             }
         });
