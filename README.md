@@ -47,7 +47,7 @@ $parameters = [
 $tweet->retrieve(123456, $parameters);
 ```
 
-Methods may have more than one required parameter, so your parameters method will always be last, after the required parameters.
+Methods may have more than one required parameter, so your parameters will always be last, after the required parameters.
 
 ### Tweet
 
