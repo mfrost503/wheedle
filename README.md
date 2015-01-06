@@ -1,6 +1,7 @@
 ## Wheedle
 #### A PHP Twitter library
 
+<img src="https://travis-ci.org/mfrost503/wheedle.svg?branch=master"/>
 This library is currently a work in progress, more examples to follow as they get built out!
 
 Wheedle provides a common sense way to interacting with the Twitter API. Built using Guzzle and Snaggle, you'll never have to worry about those pesky OAuth 1 signatures. Getting started is as simple as passing in your tokens.
