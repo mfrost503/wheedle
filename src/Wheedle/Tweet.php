@@ -1,5 +1,7 @@
 <?php
 namespace Wheedle;
+
+use \GuzzleHttp\Exception\ClientException;
 /**
  * @author Matt Frost <mfrost.design@gmail.com>
  * @package Wheedle

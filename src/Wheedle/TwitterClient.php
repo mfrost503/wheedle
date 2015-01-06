@@ -1,12 +1,12 @@
 <?php
 namespace Wheedle;
 
-use GuzzleHttp\Client;
-use Snaggle\Client\Header\Header;
-use Snaggle\Client\Signatures\HmacSha1;
-use Snaggle\Client\Signatures\SignatureInterface;
-use Snaggle\Client\Credentials\AccessCredentials;
-use Snaggle\Client\Credentials\ConsumerCredentials;
+use \GuzzleHttp\Client;
+use \Snaggle\Client\Header\Header;
+use \Snaggle\Client\Signatures\HmacSha1;
+use \Snaggle\Client\Signatures\SignatureInterface;
+use \Snaggle\Client\Credentials\AccessCredentials;
+use \Snaggle\Client\Credentials\ConsumerCredentials;
 
 /**
  * @author Matt Frost
@@ -208,7 +208,7 @@ class TwitterClient extends Client
      */
     public function getNonce()
     {
-        return $this->nonce();
+        return $this->nonce;
     }
 
     /**
