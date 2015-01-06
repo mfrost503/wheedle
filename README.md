@@ -81,9 +81,9 @@ $data = $tweet->retrieve(123456);
 
 Optionally you can pass an array of parameters to give you back what you need, for retrieve the parameters are:
 
-* *trim_user* _boolean_ returns a user object with just numerical ID when true
-* include_my_retweet boolean when true any tweets RT'd by authenticated user will have current_user_retweet node
-* include_entites boolean entities node will be excluded when set to false
+* **trim_user** *boolean* returns a user object with just numerical ID when true
+* **include_my_retweet** *boolean* when true any tweets RT'd by authenticated user will have current_user_retweet node
+* **include_entites** boolean *entities* node will be excluded when set to false
 
 These parameters are completely optional, so you can include all or none of them
 
@@ -115,9 +115,9 @@ $data = $tweet->retrieveMentions();
 
 The optional parameters for this method are:
 
-* count int number of tweets to return up to 200
-* since_id int returns results with an ID more recent than the provided ID
-* max_id int returns results with an ID older than the provided ID
-* trim_user boolean when true returns the user object with only an ID
-* contributor_details boolean when true enhances the contributors element of the response
-* include_entities boolean entities node will be excluded when set to false
+* **count** *int* number of tweets to return up to 200
+* **since_id** *int* returns results with an ID more recent than the provided ID
+* **max_id** *int* returns results with an ID older than the provided ID
+* **trim_user** *boolean* when true returns the user object with only an ID
+* **contributor_details** *boolean* when true enhances the contributors element of the response
+* **include_entities** *boolean* entities node will be excluded when set to false
