@@ -10,6 +10,14 @@ use \GuzzleHttp\Exception\ClientException;
 class Tweet
 {
     /**
+     * End point constants
+     */
+    const USER_TIMELINE_ENDPOINT = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
+    const HOME_TIMELINE_ENDPOINT = 'https://api.twitter.com/1.1/statuses/home_timeline.json';
+    const MENTIONS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/mentions_timeline.json';
+    const MY_RETWEETS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweets_of_me.json';
+    const RETRIEVE_ENPOINT = 'https://api.twitter.com/1.1/statuses/show/';
+    /**
      * Use the options filter trait to eliminate unavailable query string params
      */
     use OptionsFilter;
@@ -52,7 +60,7 @@ class Tweet
         ];
 
         $options = $this->filterOptions($availableOptions, $options);
-        return $this->client->makeGetRequest($this->baseUrl . 'show/' . $id .'.json', $options);
+        return $this->client->makeGetRequest(self::RETRIEVE_ENPOINT . $id .'.json', $options);
     }
 
     /**
@@ -79,7 +87,7 @@ class Tweet
         ];
 
         $options = $this->filterOptions($availableOptions, $options);
-        return $this->client->makeGetRequest($this->baseUrl . 'mentions_timeline.json', $options);
+        return $this->client->makeGetRequest(self::MENTIONS_ENDPOINT, $options);
     }
 
     /**
@@ -113,7 +121,7 @@ class Tweet
 
             // filter out options that aren't available
         $options = $this->filterOptions($availableOptions, $options);
-        return $this->client->makeGetRequest($this->baseUrl . 'user_timeline.json', $options);
+        return $this->client->makeGetRequest(self::USER_TIMELINE_ENDPOINT, $options);
     }
 
     /**
@@ -139,7 +147,7 @@ class Tweet
             'contributor_details'
         ];
         $options = $this->filterOptions($availableOptions, $options);
-        return $this->client->makeGetRequest($this->baseUrl . 'home_timeline.json', $options);
+        return $this->client->makeGetRequest(self::HOME_TIMELINE_ENDPOINT, $options);
     }
 
     /**
@@ -165,6 +173,6 @@ class Tweet
             'include_user_entities'
         ];
         $options = $this->filterOptions($availableOptions, $options);
-        return $this->client->makeGetRequest($this->baseUrl . 'retweets_of_me.json', $options);
+        return $this->client->makeGetRequest(self::MY_RETWEETS_ENDPOINT, $options);
     }
 }
