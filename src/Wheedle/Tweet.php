@@ -182,7 +182,7 @@ class Tweet
                 'contributor_details'
             ];
             $options = $this->filterOptions($availableOptions, $options);
-            $queryString = '?';
+            $queryString = (empty($options)) ? '' : '?';
             $queryString .= http_build_query($options);
             $endpoint = $this->baseUrl . 'home_timeline.json' . $queryString;
             $this->client->setHttpMethod('GET');
@@ -194,6 +194,46 @@ class Tweet
             ]);
             return $response->getBody();
         } catch(\GuzzleHttp\Exception\ClientException $e) {
+            return $e->getMessage();
+        }
+    }
+
+    /**
+     * @param Array $options
+     *   - count int number of results to return, up to 200
+     *   - since_id int returns results with an ID more recent than the provided ID
+     *   - max_id int returns results with an ID older than the provided ID
+     *   - trim_user boolean when true returns the user object with only an ID
+     *   - include_entities boolean tweet entities node will be excluded when set to false
+     *   - include_user_entities boolean user entities node will be excluded when set to false
+     * @return string
+     *
+     * Retrieving a collection of your tweets that were retweeted by others
+     */
+    public function retrieveMyRetweets(Array $options = [])
+    {
+        try {
+            $availableOptions = [
+                'count',
+                'since_id',
+                'max_id',
+                'trim_user',
+                'include_entities',
+                'include_user_entities'
+            ];
+            $options = $this->filterOptions($availableOptions, $options);
+            $queryString = (empty($options)) ? '' : '?';
+            $queryString .= http_build_query($options);
+            $endpoint = $this->baseUrl . 'retweets_of_me.json' . $queryString;
+            $this->client->setHttpMethod('GET');
+            $this->client->setResourceUrl($endpoint);
+            $response = $this->client->get($endpoint, [
+                'headers' => [
+                    'Authorization' => $this->client->getAuthorizationHeader()
+                ]
+            ]);
+            return $response->getBody();
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
             return $e->getMessage();
         }
     }

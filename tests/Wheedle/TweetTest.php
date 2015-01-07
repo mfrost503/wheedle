@@ -157,6 +157,37 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         $tweet = new Tweet($this->client);
         $tweet->retrieveHomeTimeline(['count' => 20]);
     }
+
+    /**
+     * Test to ensure the userTimeline is being called correctly
+     */
+    public function testEnsureRetrieveMyRetweetsIsHitCorrectly()
+    {
+        $signature = new HmacSha1($this->consumer, $this->access);
+        $signature->setHttpMethod('GET');
+        $signature->setResourceURL('https://api.twitter.com/1.1/statuses/retweets_of_me.json?count=20');
+        $signature->setTimestamp(1114234234234);
+        $signature->setNonce('testNonce');
+        $header = new Header;
+        $header->setSignature($signature);
+        $expectedHeader = $header->createAuthorizationHeader();
+        $this->client->setSignature($signature);
+        
+        $this->client->expects($this->once())
+            ->method('get')
+            ->with(
+                'https://api.twitter.com/1.1/statuses/retweets_of_me.json?count=20',
+                [
+                    'headers' => [
+                        'Authorization' => $this->client->getAuthorizationHeader()
+                    ]
+                ]
+            )
+            ->will($this->returnValue($this->response));
+        $tweet = new Tweet($this->client);
+        $tweet->retrieveMyRetweets(['count' => 20]);
+    }
+
     /**
      * Test to ensure the filter options method is working correctly
      */
