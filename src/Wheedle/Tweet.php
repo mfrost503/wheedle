@@ -45,28 +45,14 @@ class Tweet
      */
     public function retrieve($id, Array $options = [])
     {
-        try {
-            $availableOptions = [
-                'trim_user',
-                'include_my_retweet',
-                'include_entites'
-            ];
+        $availableOptions = [
+            'trim_user',
+            'include_my_retweet',
+            'include_entites'
+        ];
 
-            $options = $this->filterOptions($availableOptions, $options);
-            $queryString = (empty($options)) ? '' : '?';
-            $queryString .= http_build_query($options);
-            $endpoint = $this->baseUrl . 'show/' . $id . '.json' . $queryString;
-            $this->client->setHttpMethod('get');
-            $this->client->setResourceUrl($endpoint);
-            $response = $this->client->get($endpoint, [
-                'headers' => [
-                    'Authorization' => $this->client->getAuthorizationHeader()
-                ]
-            ]);
-            return $response->getBody();
-        } catch(\GuzzleHttp\Exception\ClientException $e) {
-            return $e->getMessage();
-        }
+        $options = $this->filterOptions($availableOptions, $options);
+        return $this->client->makeGetRequest($this->baseUrl . 'show/' . $id .'.json', $options);
     }
 
     /**
@@ -83,31 +69,17 @@ class Tweet
      */
     public function retrieveMentions(Array $options = [])
     {
-        try {
-            $availableOptions = [
-                'count',
-                'since_id',
-                'max_id',
-                'trim_user',
-                'contributor_details',
-                'include_entites'
-            ];
+        $availableOptions = [
+            'count',
+            'since_id',
+            'max_id',
+            'trim_user',
+            'contributor_details',
+            'include_entites'
+        ];
 
-            $options = $this->filterOptions($availableOptions, $options);
-            $queryString = (empty($options)) ? '' : '?';
-            $queryString .= http_build_query($options);
-            $endpoint = $this->baseUrl . 'mentions_timeline.json' . $queryString;
-            $this->client->setHttpMethod('GET');
-            $this->client->setResourceUrl($endpoint);
-            $response = $this->client->get($endpoint, [
-                'headers' => [
-                    'Authorization' => $this->client->getAuthorizationHeader()
-                ]
-            ]);
-            return $response->getBody();
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
-            return $e->getMessage();
-        }
+        $options = $this->filterOptions($availableOptions, $options);
+        return $this->client->makeGetRequest($this->baseUrl . 'mentions_timeline.json', $options);
     }
 
     /**
@@ -127,35 +99,21 @@ class Tweet
      */
     public function retrieveUserTimeline(Array $options = [])
     {
-        try {
-            $availableOptions = [
-                'user_id',
-                'screen_name',
-                'since_id',
-                'count',
-                'max_id',
-                'trim_user',
-                'exclude_replies',
-                'contributor_details',
-                'include_rts'
-            ];
+        $availableOptions = [
+            'user_id',
+            'screen_name',
+            'since_id',
+            'count',
+            'max_id',
+            'trim_user',
+            'exclude_replies',
+            'contributor_details',
+            'include_rts'
+         ];
 
             // filter out options that aren't available
-            $options = $this->filterOptions($availableOptions, $options);
-            $queryString = (empty($options)) ? '' : '?';
-            $queryString .= http_build_query($options);
-            $endpoint = $this->baseUrl . 'user_timeline.json' . $queryString;
-            $this->client->setHttpMethod('GET');
-            $this->client->setResourceUrl($endpoint);
-            $response = $this->client->get($endpoint, [
-                'headers' => [
-                    'Authorization' => $this->client->getAuthorizationHeader()
-                ]
-            ]);
-            return $response->getBody();
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
-            return $e->getMessage();
-        }
+        $options = $this->filterOptions($availableOptions, $options);
+        return $this->client->makeGetRequest($this->baseUrl . 'user_timeline.json', $options);
     }
 
     /**
@@ -172,30 +130,16 @@ class Tweet
      */
     public function retrieveHomeTimeline(Array $options = [])
     {
-        try {
-            $availableOptions = [
-                'count',
-                'since_id',
-                'max_id',
-                'include_entities',
-                'exclude_replies',
-                'contributor_details'
-            ];
-            $options = $this->filterOptions($availableOptions, $options);
-            $queryString = (empty($options)) ? '' : '?';
-            $queryString .= http_build_query($options);
-            $endpoint = $this->baseUrl . 'home_timeline.json' . $queryString;
-            $this->client->setHttpMethod('GET');
-            $this->client->setResourceUrl($endpoint);
-            $response = $this->client->get($endpoint, [
-                'headers' => [
-                    'Authorization' => $this->client->getAuthorizationHeader()
-                ]
-            ]);
-            return $response->getBody();
-        } catch(\GuzzleHttp\Exception\ClientException $e) {
-            return $e->getMessage();
-        }
+        $availableOptions = [
+            'count',
+            'since_id',
+            'max_id',
+            'include_entities',
+            'exclude_replies',
+            'contributor_details'
+        ];
+        $options = $this->filterOptions($availableOptions, $options);
+        return $this->client->makeGetRequest($this->baseUrl . 'home_timeline.json', $options);
     }
 
     /**
@@ -212,29 +156,15 @@ class Tweet
      */
     public function retrieveMyRetweets(Array $options = [])
     {
-        try {
-            $availableOptions = [
-                'count',
-                'since_id',
-                'max_id',
-                'trim_user',
-                'include_entities',
-                'include_user_entities'
-            ];
-            $options = $this->filterOptions($availableOptions, $options);
-            $queryString = (empty($options)) ? '' : '?';
-            $queryString .= http_build_query($options);
-            $endpoint = $this->baseUrl . 'retweets_of_me.json' . $queryString;
-            $this->client->setHttpMethod('GET');
-            $this->client->setResourceUrl($endpoint);
-            $response = $this->client->get($endpoint, [
-                'headers' => [
-                    'Authorization' => $this->client->getAuthorizationHeader()
-                ]
-            ]);
-            return $response->getBody();
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
-            return $e->getMessage();
-        }
+        $availableOptions = [
+            'count',
+            'since_id',
+            'max_id',
+            'trim_user',
+            'include_entities',
+            'include_user_entities'
+        ];
+        $options = $this->filterOptions($availableOptions, $options);
+        return $this->client->makeGetRequest($this->baseUrl . 'retweets_of_me.json', $options);
     }
 }

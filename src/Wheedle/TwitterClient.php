@@ -2,6 +2,7 @@
 namespace Wheedle;
 
 use \GuzzleHttp\Client;
+use \GuzzleHttp\Exception\ClientException;
 use \Snaggle\Client\Header\Header;
 use \Snaggle\Client\Signatures\HmacSha1;
 use \Snaggle\Client\Signatures\SignatureInterface;
@@ -291,5 +292,31 @@ class TwitterClient extends Client
         $header = $this->getHeader();
         $header->setSignature($signature);
         return $header->createAuthorizationHeader();
+    }
+
+    /**
+     * Method to execute a GET request
+     *
+     * @param string $endpoint - endpoint to hit
+     * @param Array $options parameters for the query string
+     * @return string response from the Twitter endpoint
+     */
+    public function makeGetRequest($endpoint, $options)
+    {
+        $queryString = (empty($options)) ? '' : '?';
+        $queryString .= http_build_query($options);
+        $endpoint = $endpoint . $queryString;
+        $this->setHttpMethod('GET');
+        $this->setResourceUrl($endpoint);
+        try {
+            $response = $this->get($endpoint, [
+                'headers' => [
+                    'Authorization' => $this->getAuthorizationHeader()
+                ]
+            ]);
+            return $response->getBody();
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            return $e->getMessage();
+        }
     }
 }
