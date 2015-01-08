@@ -91,7 +91,6 @@ class TwitterClient extends Client
     /**
      * @param AccessCredentials $accessCredentials
      * @param ConsumerCredentials $consumerCredentials
-     * @param Client $client
      */
     public function __construct(AccessCredentials $accessCredentials, ConsumerCredentials $consumerCredentials)
     {
