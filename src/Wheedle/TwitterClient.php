@@ -20,7 +20,7 @@ class TwitterClient extends Client
 {
     /**
      * Header object that is used to generate the OAuth 1.0 header
-	 *
+ 	 *
      * @var \Snaggle\Client\Header\Header $header
      */
     private $header;
@@ -89,8 +89,8 @@ class TwitterClient extends Client
     private $postFields = [];
 
     /**
-     * @param Snaggle\Client\Credentials\AccessCredentials $accessCredentials
-     * @param Snaggle\Client\Credentials\ConsumerCredentials $consumerCredentials
+     * @param AccessCredentials $accessCredentials
+     * @param ConsumerCredentials $consumerCredentials
      */
     public function __construct(AccessCredentials $accessCredentials, ConsumerCredentials $consumerCredentials)
     {
@@ -102,7 +102,7 @@ class TwitterClient extends Client
     /**
      * Accessor method to retrieve a set header or create a new instance of header
      *
-     * @return Snaggle\Client\Header\Header
+     * @return Header
      */
     public function getHeader()
     {
@@ -115,7 +115,7 @@ class TwitterClient extends Client
     /**
      * Access method to set an instance of header
      *
-     * @param Snaggle\Client\Header\Header $header
+     * @param Header $header
      */
     public function setHeader(Header $header)
     {
@@ -125,7 +125,6 @@ class TwitterClient extends Client
     /**
      * Accessor method to retrieve a set Signature or create a new instance
      *
-     * @return Snaggle\Client\Signatures\HmacSha1
      */
     public function getSignature()
     {
@@ -137,9 +136,9 @@ class TwitterClient extends Client
 
     /**
      * Accessor method for setting a preconfigured signature which will set the other
-     *
-     * @param Snaggle\Client\Signatures\HmacSha1 $signature
      * properties from the data contained in the signature
+     *
+     * @param HmacSha1 $signature
      */
     public function setSignature(HmacSha1 $signature)
     {
@@ -165,7 +164,7 @@ class TwitterClient extends Client
     /**
      * Method to set the resource url
      *
-     * @param string $resourceUrl
+     * @param string $url
      */
     public function setResourceUrl($url)
     {
