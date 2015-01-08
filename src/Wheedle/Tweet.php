@@ -79,12 +79,12 @@ class Tweet
     public function retrieveMentions(Array $options = [])
     {
         $availableOptions = [
-            'count',
-            'since_id',
-            'max_id',
-            'trim_user',
             'contributor_details',
-            'include_entites'
+            'count',
+            'include_entites',
+            'max_id',
+            'since_id',
+            'trim_user'
         ];
 
         $options = $this->filterOptions($availableOptions, $options);
@@ -167,11 +167,11 @@ class Tweet
     {
         $availableOptions = [
             'count',
-            'since_id',
-            'max_id',
-            'trim_user',
             'include_entities',
-            'include_user_entities'
+            'include_user_entities',
+            'max_id',
+            'since_id',
+            'trim_user',
         ];
         $options = $this->filterOptions($availableOptions, $options);
         return $this->client->makeGetRequest(self::MY_RETWEETS_ENDPOINT, $options);
