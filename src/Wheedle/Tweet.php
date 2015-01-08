@@ -16,7 +16,7 @@ class Tweet
     const HOME_TIMELINE_ENDPOINT = 'https://api.twitter.com/1.1/statuses/home_timeline.json';
     const MENTIONS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/mentions_timeline.json';
     const MY_RETWEETS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweets_of_me.json';
-    const RETRIEVE_ENPOINT = 'https://api.twitter.com/1.1/statuses/show/';
+    const RETRIEVE_ENDPOINT = 'https://api.twitter.com/1.1/statuses/show/';
 
     /**
      * Use the options filter trait to eliminate unavailable query string params
