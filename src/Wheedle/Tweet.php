@@ -147,6 +147,7 @@ class Tweet
             'exclude_replies',
             'contributor_details'
         ];
+
         $options = $this->filterOptions($availableOptions, $options);
         return $this->client->makeGetRequest(self::HOME_TIMELINE_ENDPOINT, $options);
     }
@@ -173,6 +174,7 @@ class Tweet
             'since_id',
             'trim_user',
         ];
+
         $options = $this->filterOptions($availableOptions, $options);
         return $this->client->makeGetRequest(self::MY_RETWEETS_ENDPOINT, $options);
     }
