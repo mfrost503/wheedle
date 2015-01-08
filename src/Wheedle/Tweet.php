@@ -17,22 +17,23 @@ class Tweet
     const MENTIONS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/mentions_timeline.json';
     const MY_RETWEETS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweets_of_me.json';
     const RETRIEVE_ENPOINT = 'https://api.twitter.com/1.1/statuses/show/';
+
     /**
      * Use the options filter trait to eliminate unavailable query string params
      */
     use OptionsFilter;
 
     /**
-     * @var TwitterClient $client
-     *
      * The Twitter Client for making the requests
+     *
+     * @var TwitterClient $client
      */
     private $client;
 
     /**
-     * @var string $baseUrl
-     *
      * Base Url for the all the status related endpoints
+     *
+     * @var string $baseUrl
      */
     private $baseUrl = 'https://api.twitter.com/1.1/statuses/';
 
@@ -42,14 +43,14 @@ class Tweet
     }
 
     /**
+     * Method to retrieve a tweet by id
+     *
      * @param int $id
      * @param Array $options optional parameters to refine a search
      *   - trim_user boolean returns a user object with just numerical ID when true
      *   - include_my_retweet boolean when true any tweets RT'd by authenticated user will have current_user_retweet node
      *   - include_entites boolean entities node will be excluded when set to false
      * @return string
-     *
-     * Method to retrieve a tweet by id
      */
     public function retrieve($id, Array $options = [])
     {
@@ -60,10 +61,12 @@ class Tweet
         ];
 
         $options = $this->filterOptions($availableOptions, $options);
-        return $this->client->makeGetRequest(self::RETRIEVE_ENPOINT . $id .'.json', $options);
+        return $this->client->makeGetRequest(self::RETRIEVE_ENDPOINT . $id .'.json', $options);
     }
 
     /**
+     * Retrieve a collection of mentions for the authenticated user
+     *
      * @param Array $options optional parameters to refine the output
      *   - count int number of tweets to return up to 200
      *   - since_id int returns results with an ID more recent than the provided ID
@@ -72,8 +75,6 @@ class Tweet
      *   - contributor_details boolean when true enhances the contributors element of the response
      *   - include_entities boolean entities node will be excluded when set to false
      * @return string
-     *
-     * Retrieve a collection of mentions for the authenticated user
      */
     public function retrieveMentions(Array $options = [])
     {
@@ -91,6 +92,8 @@ class Tweet
     }
 
     /**
+     * A method to return the tweets in a users timeline
+     *
      * @param Array $options optional parameters to refine a search
      *   - user_id int user id for whom to return results for (if blank defaults to authenticated user)
      *   - screen_name string screen name for whom to return results for (if blank, defaults to authenticated user)
@@ -102,8 +105,6 @@ class Tweet
      *   - contributor_details boolean when true enhances the contributors element of the response
      *   - include_rts boolean when false the timeline will strip any native retweets
      * @return string
-     *
-     * A method to return the tweets in a users timeline
      */
     public function retrieveUserTimeline(Array $options = [])
     {
@@ -125,6 +126,8 @@ class Tweet
     }
 
     /**
+     * Method to retrieve the home timeline for the authenticated user
+     *
      * @param Array $options
      *   - count int number of results to return, up to 200
      *   - since_id int returns results with an ID more recent than the provided ID
@@ -133,8 +136,6 @@ class Tweet
      *   - exclude_replies boolean when true, prevents replies from appearing in the returned timeline
      *   - contributor_details boolean when true enhances the contributors element of the response
      * @return string
-     *
-     * Method to retrieve the home timeline for the authenticated user
      */
     public function retrieveHomeTimeline(Array $options = [])
     {
@@ -151,6 +152,8 @@ class Tweet
     }
 
     /**
+     * Retrieving a collection of your tweets that were retweeted by others
+     *
      * @param Array $options
      *   - count int number of results to return, up to 200
      *   - since_id int returns results with an ID more recent than the provided ID
@@ -159,8 +162,6 @@ class Tweet
      *   - include_entities boolean tweet entities node will be excluded when set to false
      *   - include_user_entities boolean user entities node will be excluded when set to false
      * @return string
-     *
-     * Retrieving a collection of your tweets that were retweeted by others
      */
     public function retrieveMyRetweets(Array $options = [])
     {

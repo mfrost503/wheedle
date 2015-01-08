@@ -10,75 +10,81 @@ use \Snaggle\Client\Credentials\AccessCredentials;
 use \Snaggle\Client\Credentials\ConsumerCredentials;
 
 /**
+ * A Twitter client that extends Guzzle or encapsulates the OAuth madness
+ *
  * @author Matt Frost
  * @license http://opensource.org/licenses/MIT MIT
  * @package Wheedle
- *
- * A Twitter client that extends Guzzle or encapsulates the OAuth madness
  */
 class TwitterClient extends Client
 {
     /**
-     * @var \Snaggle\Client\Header\Header $header
      * Header object that is used to generate the OAuth 1.0 header
+	 *
+     * @var \Snaggle\Client\Header\Header $header
      */
     private $header;
 
     /**
-     * @var \Snaggle\Client\Signatures\SignatureInterface $signature
      * A signature type used to generate the OAuth 1.0 signature
+	 *
+     * @var \Snaggle\Client\Signatures\SignatureInterface $signature
      */
     private $signature;
 
     /**
-     * @var \Snaggle\Client\Credentials\AccessCredentials
      * A Snaggle\AccessCredentials instance with the appropriate key/secret
+	 *
+     * @var \Snaggle\Client\Credentials\AccessCredentials
      */
     private $accessCredentials;
 
     /**
-     * @var \Snaggle\Client\Credentials\ConsumerCredentials
      * A Snaggle\ConsumerCredentials instance with the appropriate key/secret
+	 *
+     * @var \Snaggle\Client\Credentials\ConsumerCredentials
      */
     private $consumerCredentials;
 
     /**
-     * @var string $resourceUrl
      * String representing the location of the resource
+	 *
+     * @var string $resourceUrl
      */
     private $resourceUrl;
 
     /**
-     * @var string $httpMethod
      * String representing the HTTP method with which to use the request
+	 *
+     * @var string $httpMethod
      */
     private $httpMethod;
 
     /**
-     * @var int $timestamp
-     *
      * A timestamp for the request
+     *
+     * @var int $timestamp
      */
     private $timestamp = 0;
 
     /**
-     * @var string $nonce
-     *
      * A nonce for the request
+     *
+     * @var string $nonce
      */
     private $nonce = null;
 
     /**
-     * @var string $verifier
-     *
      * Verifier that is part of the temporary token exchange
+     *
+     * @var string $verifier
      */
     private $verifier = null;
 
     /**
-     * @var Array $postFields
-     *
      * Post requests require any form fields to be included for the signature, you can set them here
+     *
+     * @var Array $postFields
      */
     private $postFields = [];
 
@@ -94,9 +100,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @return Snaggle\Client\Header\Header
-     *
      * Accessor method to retrieve a set header or create a new instance of header
+     *
+     * @return Snaggle\Client\Header\Header
      */
     public function getHeader()
     {
@@ -107,9 +113,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @param Snaggle\Client\Header\Header $header
-     *
      * Access method to set an instance of header
+     *
+     * @param Snaggle\Client\Header\Header $header
      */
     public function setHeader(Header $header)
     {
@@ -117,9 +123,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @return Snaggle\Client\Signatures\HmacSha1
-     *
      * Accessor method to retrieve a set Signature or create a new instance
+     *
+     * @return Snaggle\Client\Signatures\HmacSha1
      */
     public function getSignature()
     {
@@ -130,9 +136,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @param Snaggle\Client\Signatures\HmacSha1 $signature
-     *
      * Accessor method for setting a preconfigured signature which will set the other
+     *
+     * @param Snaggle\Client\Signatures\HmacSha1 $signature
      * properties from the data contained in the signature
      */
     public function setSignature(HmacSha1 $signature)
@@ -147,9 +153,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @return string
-     *
      * Method to return the Resource URL
+     *
+     * @return string
      */
     public function getResourceUrl()
     {
@@ -157,9 +163,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @param string $resourceUrl
-     *
      * Method to set the resource url
+     *
+     * @param string $resourceUrl
      */
     public function setResourceUrl($url)
     {
@@ -167,9 +173,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @return string
-     *
      * Method to retrieve the HTTP Method
+     *
+     * @return string
      */
     public function getHttpMethod()
     {
@@ -177,9 +183,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @param string $httpMethod
-     *
      * Method to set the Http Method
+     *
+     * @param string $httpMethod
      */
     public function setHttpMethod($httpMethod)
     {
@@ -187,9 +193,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @return int
-     *
      * Method to get a signed timestamp
+     *
+     * @return int
      */
     public function getTimestamp()
     {
@@ -197,9 +203,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @param int $timestamp
-     *
      * Method to set a timestamp
+     *
+     * @param int $timestamp
      */
     public function setTimestamp($timestamp)
     {
@@ -207,9 +213,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @return string
-     *
      * Method to retrieve the nonce
+     *
+     * @return string
      */
     public function getNonce()
     {
@@ -217,9 +223,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @param string $nonce
-     *
      * Method to set a nonce
+     *
+     * @param string $nonce
      */
     public function setNonce($nonce)
     {
@@ -227,9 +233,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @return string
-     *
      * Method to set the OAuth verifier for token requests
+     *
+     * @return string
      */
     public function getVerifier()
     {
@@ -237,9 +243,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @param string $verifier
-     *
      * Method to set the verifier for token requests
+     *
+     * @param string $verifier
      */
     public function setVerifier($verifier)
     {
@@ -247,9 +253,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @return Array
-     *
      * Method for retrieving the set post fields
+     *
+     * @return Array
      */
     public function getPostFields()
     {
@@ -257,9 +263,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @param Array $postFields
-     *
      * Method for setting the post fields
+     *
+     * @param Array $postFields
      */
     public function setPostFields(Array $postFields)
     {
@@ -267,9 +273,9 @@ class TwitterClient extends Client
     }
 
     /**
-     * @return string
-     *
      * Method to build the Authorization Header
+     *
+     * @return string
      */
     public function getAuthorizationHeader()
     {
