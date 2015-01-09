@@ -18,6 +18,7 @@ class Tweet
     const MY_RETWEETS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweets_of_me.json';
     const RETRIEVE_ENDPOINT = 'https://api.twitter.com/1.1/statuses/show/';
     const RETWEETS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweets/';
+
     /**
      * Use the options filter trait to eliminate unavailable query string params
      */
