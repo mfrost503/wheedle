@@ -2,6 +2,7 @@
 namespace Wheedle;
 
 use \GuzzleHttp\Exception\ClientException;
+
 /**
  * @author Matt Frost <mfrost.design@gmail.com>
  * @package Wheedle
@@ -32,12 +33,10 @@ class Tweet
     private $client;
 
     /**
-     * Base Url for the all the status related endpoints
-     *
-     * @var string $baseUrl
+     * Constructor
+     * 
+     * @param TwitterClient $client
      */
-    private $baseUrl = 'https://api.twitter.com/1.1/statuses/';
-
     public function __construct(TwitterClient $client)
     {
         $this->client = $client;
