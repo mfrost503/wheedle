@@ -17,7 +17,7 @@ class Tweet
     const MENTIONS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/mentions_timeline.json';
     const MY_RETWEETS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweets_of_me.json';
     const RETRIEVE_ENDPOINT = 'https://api.twitter.com/1.1/statuses/show/';
-
+    const RETWEETS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweets/';
     /**
      * Use the options filter trait to eliminate unavailable query string params
      */
@@ -68,7 +68,7 @@ class Tweet
      * Retrieve a collection of mentions for the authenticated user
      *
      * @param Array $options optional parameters to refine the output
-     *   - count int number of tweets to return up to 200
+     *   - count int number of results to return, up to 200, if omitted returns 20
      *   - since_id int returns results with an ID more recent than the provided ID
      *   - max_id int returns results with an ID older than the provided ID
      *   - trim_user boolean when true returns the user object with only an ID
@@ -129,7 +129,7 @@ class Tweet
      * Method to retrieve the home timeline for the authenticated user
      *
      * @param Array $options
-     *   - count int number of results to return, up to 200
+     *   - count int number of results to return, up to 200, if omitted returns 20
      *   - since_id int returns results with an ID more recent than the provided ID
      *   - max_id int returns results with an ID older than the provided ID
      *   - include_entities boolean entities node will be excluded when set to false
@@ -156,7 +156,7 @@ class Tweet
      * Retrieving a collection of your tweets that were retweeted by others
      *
      * @param Array $options
-     *   - count int number of results to return, up to 200
+     *   - count int number of results to return, up to 200, if omitted returns 20
      *   - since_id int returns results with an ID more recent than the provided ID
      *   - max_id int returns results with an ID older than the provided ID
      *   - trim_user boolean when true returns the user object with only an ID
@@ -178,4 +178,25 @@ class Tweet
         $options = $this->filterOptions($availableOptions, $options);
         return $this->client->makeGetRequest(self::MY_RETWEETS_ENDPOINT, $options);
     }
+
+    /**
+     * Retrieve the retweets for a specific tweet
+     *
+     * @param int $id ID of the tweet to retrieve the retweeters
+     * @param Array $options
+     *   - count int number of results to return up to 100, 100 is the max allowed
+     *   - trim_user boolean when true returns the user object with only an ID
+     * @return string
+     */
+    public function retrieveRetweets($id, $options)
+    {
+        $availableOptions = [
+            'count',
+            'trim_user'
+        ];
+
+        $options = $this->filterOptions($availableOptions, $options);
+        return $this->client->makeGetRequest(self::RETWEETS_ENDPOINT . $id . '.json', $options);
+    }
+
 }
