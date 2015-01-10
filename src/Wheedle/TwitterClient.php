@@ -324,4 +324,29 @@ class TwitterClient extends Client
             return $e->getMessage();
         }
     }
+
+    /**
+     * Method to execute a POST request
+     *
+     * @param string $endpoint - end point to hit
+     * @param Array $options - parameters/post body
+     * @return string response from Twitter Endpoint
+     */
+    public function makePostRequest($endpoint, $options)
+    {
+        $this->setHttpMethod('POST');
+        $this->setResourceUrl($endpoint);
+        $this->setPostFields($options);
+        try {
+            $response = $this->post($endpoint, [
+                'headers' => [
+                    'Authorization' => $this->getAuthorizationHeader()
+                ],
+                'body' => http_build_query($options)
+            ]);
+            return $response->getBody();
+        } catch(\GuzzleHttp\Exception\ClientException $e) {
+            return $e->getMessage();
+        }
+    }
 }
