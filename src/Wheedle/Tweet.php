@@ -19,6 +19,7 @@ class Tweet
     const MY_RETWEETS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweets_of_me.json';
     const RETRIEVE_ENDPOINT = 'https://api.twitter.com/1.1/statuses/show/';
     const RETWEETS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweets/';
+    const UPDATE_ENDPOINT = 'https://api.twitter.com/1.1/statuses/update.json';
 
     /**
      * Use the options filter trait to eliminate unavailable query string params
@@ -199,4 +200,35 @@ class Tweet
         return $this->client->makeGetRequest(self::RETWEETS_ENDPOINT . $id . '.json', $options);
     }
 
+    /**
+     * Method to create a Tweet
+     *
+     * @param string $status The status or tweet that will be sent
+     * @param Array $options Optional parameters for the request
+     *   - in_reply_to_status_id int the ID for the tweet you are replying to, must @ mention original author
+     *   - possibly_sensitive boolean should be set when tweet contains nudity, violence or other gross stuff
+     *   - lat float latitude
+     *   - long float longitude
+     *   - place_id string a place in the world
+     *   - display_coordinates boolean when true will put a pin an exact coordinates tweet was sent from
+     *   - trim_user boolean when true returns the user object with only an ID
+     *   - media_ids string a list of media ids to associate to a tweet
+     */
+    public function create($status, $options = [])
+    {
+        $availableOptions = [
+            'in_reply_to_status_id',
+            'possibly_sensitive',
+            'lat',
+            'long',
+            'place_id',
+            'display_coordinates',
+            'trim_user',
+            'media_ids'
+        ];
+
+        $options = $this->filterOptions($availableOptions, $options);
+        $options['status'] = $status;
+        return $this->client->makePostRequest(self::UPDATE_ENDPOINT, $options);
+    }
 }

@@ -225,6 +225,9 @@ class TwitterClient
      */
     public function setPostFields(Array $postFields)
     {
+        array_walk($postFields, function($value, $key) use ($postFields) {
+            $postFields[$key] = rawurlencode($value);
+        });
         $this->postFields = $postFields;
     }
 
@@ -238,6 +241,7 @@ class TwitterClient
         $signature = $this->getSignature();
         $signature->setResourceURL($this->resourceUrl);
         $signature->setHttpMethod($this->httpMethod);
+        $signature->setPostFields($this->postFields);
         
         if ($this->timestamp !== 0) {
             $signature->setTimestamp($this->timestamp);
@@ -299,11 +303,12 @@ class TwitterClient
                 'headers' => [
                     'Authorization' => $this->getAuthorizationHeader()
                 ],
-                'body' => http_build_query($options)
+                'body' => $options
             ]);
-            return $response->getBody();
+            return $response;
         } catch(\GuzzleHttp\Exception\ClientException $e) {
-            return $e->getMessage();
+            return $e->getMessage() . "\n\n\n" . $this->getAuthorizationHeader();
+
         }
     }
 }
