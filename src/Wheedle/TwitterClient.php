@@ -103,20 +103,7 @@ class TwitterClient
     {
         $this->accessCredentials = $accessCredentials;
         $this->consumerCredentials = $consumerCredentials;
-        $this->getClient(); 
-    }
-
-    /**
-     * Method to retrieve/create a instance of Guzzle Http Client
-     *
-     * @return Client
-     */
-    public function getClient()
-    {
-        if (!$this->client instanceof Client) {
-            $this->client = new Client;
-        }
-        return $this->client;
+        $this->client = new Client(); 
     }
 
     /**
@@ -182,16 +169,6 @@ class TwitterClient
     }
 
     /**
-     * Method to return the Resource URL
-     *
-     * @return string
-     */
-    public function getResourceUrl()
-    {
-        return $this->resourceUrl;
-    }
-
-    /**
      * Method to set the resource url
      *
      * @param string $url
@@ -199,16 +176,6 @@ class TwitterClient
     public function setResourceUrl($url)
     {
         $this->resourceUrl = $url;
-    }
-
-    /**
-     * Method to retrieve the HTTP Method
-     *
-     * @return string
-     */
-    public function getHttpMethod()
-    {
-        return strtoupper($this->httpMethod);
     }
 
     /**
@@ -222,16 +189,6 @@ class TwitterClient
     }
 
     /**
-     * Method to get a signed timestamp
-     *
-     * @return int
-     */
-    public function getTimestamp()
-    {
-        return $this->timestamp;
-    }
-
-    /**
      * Method to set a timestamp
      *
      * @param int $timestamp
@@ -239,16 +196,6 @@ class TwitterClient
     public function setTimestamp($timestamp)
     {
         $this->timestamp = $timestamp;
-    }
-
-    /**
-     * Method to retrieve the nonce
-     *
-     * @return string
-     */
-    public function getNonce()
-    {
-        return $this->nonce;
     }
 
     /**
@@ -262,16 +209,6 @@ class TwitterClient
     }
 
     /**
-     * Method to set the OAuth verifier for token requests
-     *
-     * @return string
-     */
-    public function getVerifier()
-    {
-        return $this->verifier;
-    }
-
-    /**
      * Method to set the verifier for token requests
      *
      * @param string $verifier
@@ -279,16 +216,6 @@ class TwitterClient
     public function setVerifier($verifier)
     {
         $this->verifier = $verifier;
-    }
-
-    /**
-     * Method for retrieving the set post fields
-     *
-     * @return Array
-     */
-    public function getPostFields()
-    {
-        return $this->postFields;
     }
 
     /**

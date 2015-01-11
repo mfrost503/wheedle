@@ -76,26 +76,6 @@ class TwitterClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * test to ensure http method accessors are working
-     */
-    public function testHttpMethodAccessors()
-    {
-        $method = 'Post';
-        $this->twitter->setHttpMethod($method);
-        $this->assertEquals(strtoupper($method), $this->twitter->getHttpMethod());
-    }
-
-    /**
-     * test to ensure resourceUrl accessors are working
-     */
-    public function testResourceUrlAccessors()
-    {
-        $resourceUrl = 'http://example.com';
-        $this->twitter->setResourceUrl($resourceUrl);
-        $this->assertEquals($resourceUrl, $this->twitter->getResourceUrl());
-    }
-
-    /**
      * test to ensure the set properties are in the header
      */
     public function testEnsureHeaderIsBeingCreated()
