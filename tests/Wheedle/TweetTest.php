@@ -24,7 +24,7 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         $this->consumer = new ConsumerCredentials;
         $this->consumer->setIdentifier('987654321');
         $this->consumer->setSecret('GfeDcbA');
-        $this->client = $this->getMock('Wheedle\TwitterClient', ['get', 'post'], [$this->access, $this->consumer]);
+        $this->client = $this->getMock('Wheedle\TwitterClient', ['makeGetRequest', 'makePostRequest'], [$this->access, $this->consumer]);
         $this->response = $this->getMockBuilder('GuzzleHttp\Message\Response')
             ->disableOriginalConstructor()
             ->getMock();
@@ -54,16 +54,9 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         $this->client->setSignature($signature);
         
         $this->client->expects($this->once())
-            ->method('get')
-            ->with(
-                'https://api.twitter.com/1.1/statuses/show/1.json',
-                [
-                    'headers' => [
-                        'Authorization' => $this->client->getAuthorizationHeader()
-                    ]
-                ]
-            )
-            ->will($this->returnValue($this->response));
+            ->method('makeGetRequest')
+            ->with('https://api.twitter.com/1.1/statuses/show/1.json', []);
+            
         $tweet = new Tweet($this->client);
         $tweet->retrieve(1);
     }
@@ -84,16 +77,9 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         $this->client->setSignature($signature);
         
         $this->client->expects($this->once())
-            ->method('get')
-            ->with(
-                'https://api.twitter.com/1.1/statuses/mentions_timeline.json',
-                [
-                    'headers' => [
-                        'Authorization' => $this->client->getAuthorizationHeader()
-                    ]
-                ]
-            )
-            ->will($this->returnValue($this->response));
+            ->method('makeGetRequest')
+            ->with('https://api.twitter.com/1.1/statuses/mentions_timeline.json', []);
+                
         $tweet = new Tweet($this->client);
         $tweet->retrieveMentions();
     }
@@ -105,7 +91,7 @@ class TweetTest extends \PHPUnit_Framework_TestCase
     {
         $signature = new HmacSha1($this->consumer, $this->access);
         $signature->setHttpMethod('GET');
-        $signature->setResourceURL('https://api.twitter.com/1.1/statuses/user_timeline.json');
+        $signature->setResourceURL('https://api.twitter.com/1.1/statuses/user_timeline.json?count=20');
         $signature->setTimestamp(1114234234234);
         $signature->setNonce('testNonce');
         $header = new Header;
@@ -114,18 +100,11 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         $this->client->setSignature($signature);
         
         $this->client->expects($this->once())
-            ->method('get')
-            ->with(
-                'https://api.twitter.com/1.1/statuses/user_timeline.json',
-                [
-                    'headers' => [
-                        'Authorization' => $this->client->getAuthorizationHeader()
-                    ]
-                ]
-            )
-            ->will($this->returnValue($this->response));
+            ->method('makeGetRequest')
+            ->with('https://api.twitter.com/1.1/statuses/user_timeline.json', ['count' => 20]);
+            
         $tweet = new Tweet($this->client);
-        $tweet->retrieveUserTimeline();
+        $tweet->retrieveUserTimeline(['count' => '20']);
     }
 
     /**
@@ -144,16 +123,9 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         $this->client->setSignature($signature);
         
         $this->client->expects($this->once())
-            ->method('get')
-            ->with(
-                'https://api.twitter.com/1.1/statuses/home_timeline.json?count=20',
-                [
-                    'headers' => [
-                        'Authorization' => $this->client->getAuthorizationHeader()
-                    ]
-                ]
-            )
-            ->will($this->returnValue($this->response));
+            ->method('makeGetRequest')
+            ->with('https://api.twitter.com/1.1/statuses/home_timeline.json', ['count' => 20]);
+
         $tweet = new Tweet($this->client);
         $tweet->retrieveHomeTimeline(['count' => 20]);
     }
@@ -174,16 +146,9 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         $this->client->setSignature($signature);
         
         $this->client->expects($this->once())
-            ->method('get')
-            ->with(
-                'https://api.twitter.com/1.1/statuses/retweets_of_me.json?count=20',
-                [
-                    'headers' => [
-                        'Authorization' => $this->client->getAuthorizationHeader()
-                    ]
-                ]
-            )
-            ->will($this->returnValue($this->response));
+            ->method('makeGetRequest')
+            ->with('https://api.twitter.com/1.1/statuses/retweets_of_me.json', ['count' => 20]);
+            
         $tweet = new Tweet($this->client);
         $tweet->retrieveMyRetweets(['count' => 20]);
     }
@@ -204,16 +169,9 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         $this->client->setSignature($signature);
         
         $this->client->expects($this->once())
-            ->method('get')
-            ->with(
-                'https://api.twitter.com/1.1/statuses/retweets/1.json?count=20',
-                [
-                    'headers' => [
-                        'Authorization' => $this->client->getAuthorizationHeader()
-                    ]
-                ]
-            )
-            ->will($this->returnValue($this->response));
+            ->method('makeGetRequest')
+            ->with('https://api.twitter.com/1.1/statuses/retweets/1.json', ['count' => 20]);
+
         $tweet = new Tweet($this->client);
         $tweet->retrieveRetweets(1, ['count' => 20]);
     }

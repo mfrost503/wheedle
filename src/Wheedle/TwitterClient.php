@@ -16,8 +16,15 @@ use \Snaggle\Client\Credentials\ConsumerCredentials;
  * @license http://opensource.org/licenses/MIT MIT
  * @package Wheedle
  */
-class TwitterClient extends Client
+class TwitterClient
 {
+    /**
+     * HTTP Client capable of making HTTP Requests
+     *
+     * @var \GuzzleHttp\Client $client
+     */
+    private $client;
+
     /**
      * Header object that is used to generate the OAuth 1.0 header
  	 *
@@ -96,7 +103,30 @@ class TwitterClient extends Client
     {
         $this->accessCredentials = $accessCredentials;
         $this->consumerCredentials = $consumerCredentials;
-        parent::__construct();
+        $this->getClient(); 
+    }
+
+    /**
+     * Method to retrieve/create a instance of Guzzle Http Client
+     *
+     * @return Client
+     */
+    public function getClient()
+    {
+        if (!$this->client instanceof Client) {
+            $this->client = new Client;
+        }
+        return $this->client;
+    }
+
+    /**
+     * Method set an instance of Guzzle HTTP client
+     *
+     * @param Client $client
+     */
+    public function setClient(Client $client)
+    {
+        $this->client = $client;
     }
 
     /**
@@ -314,7 +344,7 @@ class TwitterClient extends Client
         $this->setHttpMethod('GET');
         $this->setResourceUrl($endpoint);
         try {
-            $response = $this->get($endpoint, [
+            $response = $this->client->get($endpoint, [
                 'headers' => [
                     'Authorization' => $this->getAuthorizationHeader()
                 ]
@@ -338,7 +368,7 @@ class TwitterClient extends Client
         $this->setResourceUrl($endpoint);
         $this->setPostFields($options);
         try {
-            $response = $this->post($endpoint, [
+            $response = $this->client->post($endpoint, [
                 'headers' => [
                     'Authorization' => $this->getAuthorizationHeader()
                 ],
