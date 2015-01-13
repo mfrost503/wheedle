@@ -193,3 +193,38 @@ The optional parameters for this method are:
 * **trim_user** *boolean* when true returns the user object with only an ID
 * **contributor_details** *boolean* when true enhances the contributors element of the response
 * **include_entities** *boolean* entities node will be excluded when set to false
+
+#### My Tweets - Retweeted by others
+
+To retrieve a timeline of all your tweets:
+
+```php
+<?php
+use Snaggle\Client\Credentials\AccessCredentials;
+use Snaggle\Client\Credentials\ConsumerCredentials;
+use Wheedle\TwitterClient;
+use Wheedle\Tweet;
+
+$accessToken = new AccessCredentials;
+$accessToken->setIdentifier('YOUR_ACCESS_TOKEN');
+$accessToken->setSecret('YOUR_ACCESS_SECRET');
+
+$consumerToken = new ConsumerCredentials;
+$consumerToken->setIdentifier('YOUR_CONSUMER_KEY');
+$consumerToken->setSecret('YOUR_CONSUMER_SECRET');
+
+$client = new TwitterClient($accessToken, $consumerToken);
+
+$tweet = new Tweet($client);
+
+$data = $tweet->retrieveMyRetweets();
+```
+
+The optional parameters for this method are:
+
+* **count** *int* number of tweets to return up to 200
+* **since_id** *int* returns results with an ID more recent than the provided ID
+* **max_id** *int* returns results with an ID older than the provided ID
+* **trim_user** *boolean* when true returns the user object with only an ID
+* **include_user_entities** *boolean* user entities node will be excluded when set to false
+* **include_entities** *boolean* entities node will be excluded when set to false
