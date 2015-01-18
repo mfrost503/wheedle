@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3673966f4885ec415e0913117694506f",
+    "hash": "aeb7099a2476c58cffebda07fa500c66",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -166,25 +166,29 @@
         },
         {
             "name": "mfrost503/snaggle",
-            "version": "0.2.0",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mfrost503/Snaggle.git",
-                "reference": "5d24753d336f6ef9424ab8e6ae3044b6a6f5e0ae"
+                "reference": "541b998bf5da87f4ead861013dd116d563691d91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mfrost503/Snaggle/zipball/5d24753d336f6ef9424ab8e6ae3044b6a6f5e0ae",
-                "reference": "5d24753d336f6ef9424ab8e6ae3044b6a6f5e0ae",
+                "url": "https://api.github.com/repos/mfrost503/Snaggle/zipball/541b998bf5da87f4ead861013dd116d563691d91",
+                "reference": "541b998bf5da87f4ead861013dd116d563691d91",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4.0"
             },
+            "require-dev": {
+                "phpunit/phpunit": "~4.4",
+                "squizlabs/php_codesniffer": "~2.1"
+            },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "Snaggle": "src/"
+                "psr-4": {
+                    "Snaggle\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -206,7 +210,7 @@
                 "client",
                 "oauth1"
             ],
-            "time": "2014-10-18 18:32:27"
+            "time": "2015-01-18 22:26:02"
         },
         {
             "name": "react/promise",
@@ -508,16 +512,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "1.3.0",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "f8d5d08c56de5cfd592b3340424a81733259a876"
+                "reference": "db32c18eba00b121c145575fcbcd4d4d24e6db74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/f8d5d08c56de5cfd592b3340424a81733259a876",
-                "reference": "f8d5d08c56de5cfd592b3340424a81733259a876",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/db32c18eba00b121c145575fcbcd4d4d24e6db74",
+                "reference": "db32c18eba00b121c145575fcbcd4d4d24e6db74",
                 "shasum": ""
             },
             "require": {
@@ -530,7 +534,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3-dev"
+                    "dev-master": "1.4-dev"
                 }
             },
             "autoload": {
@@ -553,20 +557,20 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2014-08-31 06:12:13"
+            "time": "2015-01-17 09:51:32"
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.4.1",
+            "version": "4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "6a5e49a86ce5e33b8d0657abe145057fc513543a"
+                "reference": "e90575c2bb86290d57a262862dab1da125431576"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6a5e49a86ce5e33b8d0657abe145057fc513543a",
-                "reference": "6a5e49a86ce5e33b8d0657abe145057fc513543a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e90575c2bb86290d57a262862dab1da125431576",
+                "reference": "e90575c2bb86290d57a262862dab1da125431576",
                 "shasum": ""
             },
             "require": {
@@ -624,7 +628,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-12-28 07:57:05"
+            "time": "2015-01-17 11:24:41"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
