@@ -228,7 +228,8 @@ class Tweet
         ];
 
         $options = $this->filterOptions($availableOptions, $options);
-        $options['status'] = rawurlencode($status);
+        $options['status'] = $status;
+        ksort($options);
         return $this->client->makePostRequest(self::UPDATE_ENDPOINT, $options);
     }
 }

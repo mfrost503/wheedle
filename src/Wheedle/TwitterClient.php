@@ -297,7 +297,7 @@ class TwitterClient
     {
         $this->setHttpMethod('POST');
         $this->setResourceUrl($endpoint);
-        $this->setPostFields($options);
+        $this->setPostFields($this->preparePostOptions($options));
         try {
             $response = $this->client->post($endpoint, [
                 'headers' => [
@@ -310,5 +310,19 @@ class TwitterClient
             return $e->getMessage() . "\n\n\n" . $this->getAuthorizationHeader();
 
         }
+    }
+
+    /**
+     * Method to prepare parameters for the base string by rawurlencoding them
+     *
+     * @param Array $options parameters or post body
+     * @return Array array of options rawurlencoded
+     */
+    protected function preparePostOptions(Array $options)
+    {
+        array_walk($options, function($value, $key) use (&$options) {
+            $options[$key] = rawurlencode($value);
+        });
+        return $options;
     }
 }
