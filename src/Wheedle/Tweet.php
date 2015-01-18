@@ -20,6 +20,7 @@ class Tweet
     const RETRIEVE_ENDPOINT = 'https://api.twitter.com/1.1/statuses/show/';
     const RETWEETS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweets/';
     const UPDATE_ENDPOINT = 'https://api.twitter.com/1.1/statuses/update.json';
+    const SEND_RETWEET_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweet/';
 
     /**
      * Use the options filter trait to eliminate unavailable query string params
@@ -231,5 +232,19 @@ class Tweet
         $options['status'] = $status;
         ksort($options);
         return $this->client->makePostRequest(self::UPDATE_ENDPOINT, $options);
+    }
+
+    /**
+     * Method to retweet an existing tweet
+     *
+     * @param int $id Id for a specific tweet to be retweeted
+     * @param Array $options Optional parameters for the request
+     *   - trim_user boolean when true returns the user object with only an ID
+     */
+    public function retweet($id, $options)
+    {
+        $availableOptions = ['trim_user'];
+        $options = $this->filterOptions($availableOptions, $options);
+        return $this->client->makePostRequest(self::SEND_RETWEET_ENDPOINT . $id . '.json', $options);
     }
 }
