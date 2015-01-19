@@ -18,12 +18,8 @@ class TweetTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->access = new AccessCredentials;
-        $this->access->setIdentifier('1234567888');
-        $this->access->setSecret('AbcDefG');
-        $this->consumer = new ConsumerCredentials;
-        $this->consumer->setIdentifier('987654321');
-        $this->consumer->setSecret('GfeDcbA');
+        $this->access = new AccessCredentials('1234567888', 'AbcDefG');
+        $this->consumer = new ConsumerCredentials('987654321', 'GfeDcbA');        
         $this->client = $this->getMock('Wheedle\TwitterClient', ['makeGetRequest', 'makePostRequest'], [$this->access, $this->consumer]);
         $this->response = $this->getMockBuilder('GuzzleHttp\Message\Response')
             ->disableOriginalConstructor()
@@ -153,7 +149,7 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         $tweet->retrieveMyRetweets(['count' => 20]);
     }
 
-        /**
+    /**
      * Test to ensure the retrieve retweets is being called correctly
      */
     public function testEnsureRetrieveRetweetsIsHitCorrectly()
@@ -176,6 +172,75 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         $tweet->retrieveRetweets(1, ['count' => 20]);
     }
 
+
+    /**
+     * Test to ensure create is being called correctly
+     */
+    public function testEnsureCreateTweetIsHitCorrectly()
+    {
+        $signature = new HmacSha1($this->consumer, $this->access);
+        $signature->setHttpMethod('POST');
+        $signature->setResourceURL('https://api.twitter.com/1.1/statuses/update.json');
+        $signature->setTimestamp(1114234234234);
+        $signature->setNonce('testNonce');
+        $header = new Header;
+        $header->setSignature($signature);
+        $expectedHeader = $header->createAuthorizationHeader();
+        $this->client->setSignature($signature);
+        
+        $this->client->expects($this->once())
+            ->method('makePOSTRequest')
+            ->with('https://api.twitter.com/1.1/statuses/update.json', ['status' => 'This is a test tweet', 'trim_user' => true]);
+
+        $tweet = new Tweet($this->client);
+        $tweet->create('This is a test tweet', ['trim_user' => true]);
+    }
+
+    /**
+     * Test to ensure retweet is being called correctly
+     */
+    public function testEnsureRetweetIsHitCorrectly()
+    {
+        $signature = new HmacSha1($this->consumer, $this->access);
+        $signature->setHttpMethod('POST');
+        $signature->setResourceURL('https://api.twitter.com/1.1/statuses/retweet/1.json');
+        $signature->setTimestamp(1114234234234);
+        $signature->setNonce('testNonce');
+        $header = new Header;
+        $header->setSignature($signature);
+        $expectedHeader = $header->createAuthorizationHeader();
+        $this->client->setSignature($signature);
+        
+        $this->client->expects($this->once())
+            ->method('makePOSTRequest')
+            ->with('https://api.twitter.com/1.1/statuses/retweet/1.json', ['trim_user' => true]);
+
+        $tweet = new Tweet($this->client);
+        $tweet->retweet(1, ['trim_user' => true]);
+    }
+
+    /**
+     * Test to ensure delete is being called correctly
+     */
+    public function testEnsureDeleteIsHitCorrectly()
+    {
+        $signature = new HmacSha1($this->consumer, $this->access);
+        $signature->setHttpMethod('POST');
+        $signature->setResourceURL('https://api.twitter.com/1.1/statuses/destroy/1.json');
+        $signature->setTimestamp(1114234234234);
+        $signature->setNonce('testNonce');
+        $header = new Header;
+        $header->setSignature($signature);
+        $expectedHeader = $header->createAuthorizationHeader();
+        $this->client->setSignature($signature);
+        
+        $this->client->expects($this->once())
+            ->method('makePOSTRequest')
+            ->with('https://api.twitter.com/1.1/statuses/destroy/1.json');
+
+        $tweet = new Tweet($this->client);
+        $tweet->delete(1);
+    }
     /**
      * Test to ensure the filter options method is working correctly
      */

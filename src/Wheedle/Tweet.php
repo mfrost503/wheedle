@@ -21,7 +21,7 @@ class Tweet
     const RETWEETS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweets/';
     const UPDATE_ENDPOINT = 'https://api.twitter.com/1.1/statuses/update.json';
     const SEND_RETWEET_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweet/';
-    const DELETE_TWEET_ENDPOINT = 'https://api.twitter.com/1/1/statuses/destroy/';
+    const DELETE_TWEET_ENDPOINT = 'https://api.twitter.com/1.1/statuses/destroy/';
 
     /**
      * Use the options filter trait to eliminate unavailable query string params
@@ -242,7 +242,7 @@ class Tweet
      * @param Array $options Optional parameters for the request
      *   - trim_user boolean when true returns the user object with only an ID
      */
-    public function retweet($id, $options)
+    public function retweet($id, $options = [])
     {
         $availableOptions = ['trim_user'];
         $options = $this->filterOptions($availableOptions, $options);
@@ -256,7 +256,7 @@ class Tweet
      * @param Array $options Optional parameters for the request
      *   - trim_user boolean when true returns the user object with only an ID
      */
-    public function delete($id, $options)
+    public function delete($id, $options = [])
     {
         $availableOptions = ['trim_user'];
         $options = $this->filterOptions($availableOptions, $options);
