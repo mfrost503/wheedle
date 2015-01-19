@@ -21,6 +21,7 @@ class Tweet
     const RETWEETS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweets/';
     const UPDATE_ENDPOINT = 'https://api.twitter.com/1.1/statuses/update.json';
     const SEND_RETWEET_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweet/';
+    const DELETE_TWEET_ENDPOINT = 'https://api.twitter.com/1/1/statuses/destroy/';
 
     /**
      * Use the options filter trait to eliminate unavailable query string params
@@ -247,4 +248,19 @@ class Tweet
         $options = $this->filterOptions($availableOptions, $options);
         return $this->client->makePostRequest(self::SEND_RETWEET_ENDPOINT . $id . '.json', $options);
     }
+
+    /**
+     * Method for deleting a tweet that you've previously published
+     *
+     * @param int $id id for the tweet to be deleted
+     * @param Array $options Optional parameters for the request
+     *   - trim_user boolean when true returns the user object with only an ID
+     */
+    public function delete($id, $options)
+    {
+        $availableOptions = ['trim_user'];
+        $options = $this->filterOptions($availableOptions, $options);
+        return $this->client->makePostRequest(self::DELETE_TWEET_ENDPOINT . $id . '.json', $options);
+    }
+
 }

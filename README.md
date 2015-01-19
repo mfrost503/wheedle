@@ -18,13 +18,9 @@ use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
 
-$accessToken = new AccessCredentials;
-$accessToken->setIdentifier('YOUR_ACCESS_TOKEN');
-$accessToken->setSecret('YOUR_ACCESS_SECRET');
+$accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
-$consumerToken = new ConsumerCredentials;
-$consumerToken->setIdentifier('YOUR_CONSUMER_KEY');
-$consumerToken->setSecret('YOUR_CONSUMER_SECRET');
+$consumerToken = new ConsumerCredentials('YOUR_CONSUMER_KEY', 'YOUR_CONSUMER_SECRET');
 
 $client = new TwitterClient($accessToken, $consumerToken);
 
@@ -66,13 +62,9 @@ use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
 
-$accessToken = new AccessCredentials;
-$accessToken->setIdentifier('YOUR_ACCESS_TOKEN');
-$accessToken->setSecret('YOUR_ACCESS_SECRET');
+$accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
-$consumerToken = new ConsumerCredentials;
-$consumerToken->setIdentifier('YOUR_CONSUMER_KEY');
-$consumerToken->setSecret('YOUR_CONSUMER_SECRET');
+$consumerToken = new ConsumerCredentials('YOUR_CONSUMER_KEY', 'YOUR_CONSUMER_SECRET');
 
 $client = new TwitterClient($accessToken, $consumerToken);
 
@@ -100,13 +92,9 @@ use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
 
-$accessToken = new AccessCredentials;
-$accessToken->setIdentifier('YOUR_ACCESS_TOKEN');
-$accessToken->setSecret('YOUR_ACCESS_SECRET');
+$accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
-$consumerToken = new ConsumerCredentials;
-$consumerToken->setIdentifier('YOUR_CONSUMER_KEY');
-$consumerToken->setSecret('YOUR_CONSUMER_SECRET');
+$consumerToken = new ConsumerCredentials('YOUR_CONSUMER_KEY', 'YOUR_CONSUMER_SECRET');
 
 $client = new TwitterClient($accessToken, $consumerToken);
 
@@ -135,13 +123,9 @@ use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
 
-$accessToken = new AccessCredentials;
-$accessToken->setIdentifier('YOUR_ACCESS_TOKEN');
-$accessToken->setSecret('YOUR_ACCESS_SECRET');
+$accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
-$consumerToken = new ConsumerCredentials;
-$consumerToken->setIdentifier('YOUR_CONSUMER_KEY');
-$consumerToken->setSecret('YOUR_CONSUMER_SECRET');
+$consumerToken = new ConsumerCredentials('YOUR_CONSUMER_KEY', 'YOUR_CONSUMER_SECRET');
 
 $client = new TwitterClient($accessToken, $consumerToken);
 
@@ -170,13 +154,9 @@ use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
 
-$accessToken = new AccessCredentials;
-$accessToken->setIdentifier('YOUR_ACCESS_TOKEN');
-$accessToken->setSecret('YOUR_ACCESS_SECRET');
+$accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
-$consumerToken = new ConsumerCredentials;
-$consumerToken->setIdentifier('YOUR_CONSUMER_KEY');
-$consumerToken->setSecret('YOUR_CONSUMER_SECRET');
+$consumerToken = new ConsumerCredentials('YOUR_CONSUMER_KEY', 'YOUR_CONSUMER_SECRET');
 
 $client = new TwitterClient($accessToken, $consumerToken);
 
@@ -205,13 +185,9 @@ use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
 
-$accessToken = new AccessCredentials;
-$accessToken->setIdentifier('YOUR_ACCESS_TOKEN');
-$accessToken->setSecret('YOUR_ACCESS_SECRET');
+$accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
-$consumerToken = new ConsumerCredentials;
-$consumerToken->setIdentifier('YOUR_CONSUMER_KEY');
-$consumerToken->setSecret('YOUR_CONSUMER_SECRET');
+$consumerToken = new ConsumerCredentials('YOUR_CONSUMER_KEY', 'YOUR_CONSUMER_SECRET');
 
 $client = new TwitterClient($accessToken, $consumerToken);
 
@@ -240,13 +216,9 @@ use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
 
-$accessToken = new AccessCredentials;
-$accessToken->setIdentifier('YOUR_ACCESS_TOKEN');
-$accessToken->setSecret('YOUR_ACCESS_SECRET');
+$accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
-$consumerToken = new ConsumerCredentials;
-$consumerToken->setIdentifier('YOUR_CONSUMER_KEY');
-$consumerToken->setSecret('YOUR_CONSUMER_SECRET');
+$consumerToken = new ConsumerCredentials('YOUR_CONSUMER_KEY', 'YOUR_CONSUMER_SECRET');
 
 $client = new TwitterClient($accessToken, $consumerToken);
 
@@ -259,4 +231,90 @@ The optional parameters for this method are:
 
 * **count** *int* number of tweets to return up to 200
 * **trim_user** *boolean* when true returns the user object with only an ID
+
+#### Send a Tweet
+
+Create a new Tweet and post it to your timeline
+
+```php
+<?php
+use Snaggle\Client\Credentials\AccessCredentials;
+use Snaggle\Client\Credentials\ConsumerCredentials;
+use Wheedle\TwitterClient;
+use Wheedle\Tweet;
+
+$accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
+
+$consumerToken = new ConsumerCredentials('YOUR_CONSUMER_KEY', 'YOUR_CONSUMER_SECRET');
+
+$client = new TwitterClient($accessToken, $consumerToken);
+
+$tweet = new Tweet($client);
+
+$data = $tweet->create(['status' => 'This is a brand new tweet']);
+```
+
+The optional parameters for this method are:
+
+* **in_reply_to_status_id** *int* the ID for the tweet you are replying to, must @ mention original author
+* **possibly_sensitive** *boolean* should be set when tweet contains nudity, violence or other gross stuff
+* **lat** *float* latitude
+* **long** *float* longitude
+* **place_id** *string* a place in the world
+* **display_coordinates** *boolean* when true will put a pin an exact coordinates tweet was sent from
+* **trim_user** *boolean* when true returns the user object with only an ID
+* **media_ids** *string* a list of media ids to associate to a tweet
+
+#### Retweet an existing tweet
+
+Retweet a tweet to your timeline
+
+```php
+<?php
+use Snaggle\Client\Credentials\AccessCredentials;
+use Snaggle\Client\Credentials\ConsumerCredentials;
+use Wheedle\TwitterClient;
+use Wheedle\Tweet;
+
+$accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
+
+$consumerToken = new ConsumerCredentials('YOUR_CONSUMER_KEY', 'YOUR_CONSUMER_SECRET');
+
+$client = new TwitterClient($accessToken, $consumerToken);
+
+$tweet = new Tweet($client);
+
+$data = $tweet->retweet(12312432));
+```
+
+The optional parameters for this method are:
+
+* **trim_user** *boolean* when true returns the user object with only an ID
+
+#### Delete an existing tweet
+
+We all make mistakes right? Here's how'd you delete one of those mistakes...
+
+```php
+<?php
+use Snaggle\Client\Credentials\AccessCredentials;
+use Snaggle\Client\Credentials\ConsumerCredentials;
+use Wheedle\TwitterClient;
+use Wheedle\Tweet;
+
+$accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
+
+$consumerToken = new ConsumerCredentials('YOUR_CONSUMER_KEY', 'YOUR_CONSUMER_SECRET');
+
+$client = new TwitterClient($accessToken, $consumerToken);
+
+$tweet = new Tweet($client);
+
+$data = $tweet->delete(12312432));
+```
+
+The optional parameters for this method are:
+
+* **trim_user** *boolean* when true returns the user object with only an ID
+
 
