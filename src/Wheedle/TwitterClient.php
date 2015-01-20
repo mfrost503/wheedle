@@ -325,4 +325,28 @@ class TwitterClient
         });
         return $options;
     }
+
+    /**
+     * Wrapper method for makeGetRequest
+     *
+     * @param string $endpoint end point to hit
+     * @param Array $options parameters
+     * @return string response from Twitter Endpoint
+     */
+    public function get($endpoint, $options = [])
+    {
+        return $this->makeGetRequest($endpoint, $options);
+    }
+
+    /**
+     * Wrapper method for makePostRequest
+     *
+     * @param string $endpoint endpoint to hit
+     * @param Array $options parameters/post body
+     * @return string response from endpoint
+     */
+    public function post($endpoint, $options = [])
+    {
+        return $this->makePostRequest($endpoint, $options);
+    }
 }
