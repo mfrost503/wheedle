@@ -4,6 +4,9 @@ namespace Wheedle;
 use \GuzzleHttp\Exception\ClientException;
 
 /**
+ * A collection of convenience methods for the statuses endpoints for
+ * the twitter API
+ *
  * @author Matt Frost <mfrost.design@gmail.com>
  * @package Wheedle
  * @license MIT http://opensource.org/licenses/MIT
