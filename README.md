@@ -284,7 +284,7 @@ $client = new TwitterClient($accessToken, $consumerToken);
 
 $tweet = new Tweet($client);
 
-$data = $tweet->retweet(12312432));
+$data = $tweet->retweet(12312432);
 ```
 
 The optional parameters for this method are:
@@ -310,7 +310,7 @@ $client = new TwitterClient($accessToken, $consumerToken);
 
 $tweet = new Tweet($client);
 
-$data = $tweet->delete(12312432));
+$data = $tweet->delete(12312432);
 ```
 
 The optional parameters for this method are:
