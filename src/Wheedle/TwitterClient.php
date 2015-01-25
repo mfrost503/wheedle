@@ -96,6 +96,13 @@ class TwitterClient
     private $postFields = [];
 
     /**
+     * Base Twitter API Endpoint
+     *
+     * @var const string $baseEndpoint
+     */
+    const TWITTER_BASE_ENDPOINT = 'https://api.twitter.com/1.1/';
+
+    /**
      * @param AccessCredentials $accessCredentials
      * @param ConsumerCredentials $consumerCredentials
      */
@@ -271,7 +278,7 @@ class TwitterClient
     {
         $queryString = (empty($options)) ? '' : '?';
         $queryString .= http_build_query($options);
-        $endpoint = $endpoint . $queryString;
+        $endpoint = self::TWITTER_BASE_ENDPOINT . $endpoint . $queryString;
         $this->setHttpMethod('GET');
         $this->setResourceUrl($endpoint);
         try {
@@ -296,7 +303,7 @@ class TwitterClient
     public function makePostRequest($endpoint, $options)
     {
         $this->setHttpMethod('POST');
-        $this->setResourceUrl($endpoint);
+        $this->setResourceUrl(self::TWITTER_BASE_ENDPOINT . $endpoint);
         $this->setPostFields($this->preparePostOptions($options));
         try {
             $response = $this->client->post($endpoint, [

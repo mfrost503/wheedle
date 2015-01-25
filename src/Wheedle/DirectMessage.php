@@ -16,6 +16,7 @@ class DirectMessage
     /**
      * ENDPOINT CONSTANTS
      */
+    const RETRIEVE_MESSAGES_ENDPOINT = 'direct_messages.json';
 
     use OptionsFilter;
 
@@ -34,5 +35,30 @@ class DirectMessage
     public function __construct(TwitterClient $client)
     {
         $this->client = $client;
+    }
+
+    /**
+     * Method to retrieve the most recent direct messages sent to the
+     * authenticated user
+     *
+     * @param Array $options
+     *   - since_id int returns results with an ID more recent than the provided ID
+     *   - max_id int returns results with an ID older than the provided ID
+     *   - count int number of results to return, up to 200, if omitted returns 20
+     *   - include_entities boolean entities node will be excluded when set to false
+     *   - skip_status boolean statues will not be returned with the user objects when true
+     * @return string
+     */
+    public function retrieveLatestMessages(Array $options = [])
+    {
+        $availableOptions = [
+            'since_id',
+            'max_id',
+            'count',
+            'include_entities',
+            'skip_status'
+        ];
+        $options = $this->filterOptions($availableOptions, $options);
+        return $this->client->makeGetRequest(self::RETRIEVE_MESSAGES_ENDPOINT, $options);
     }
 }

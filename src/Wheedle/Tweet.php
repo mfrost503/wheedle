@@ -16,15 +16,15 @@ class Tweet
     /**
      * End point constants
      */
-    const USER_TIMELINE_ENDPOINT = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
-    const HOME_TIMELINE_ENDPOINT = 'https://api.twitter.com/1.1/statuses/home_timeline.json';
-    const MENTIONS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/mentions_timeline.json';
-    const MY_RETWEETS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweets_of_me.json';
-    const RETRIEVE_ENDPOINT = 'https://api.twitter.com/1.1/statuses/show/';
-    const RETWEETS_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweets/';
-    const UPDATE_ENDPOINT = 'https://api.twitter.com/1.1/statuses/update.json';
-    const SEND_RETWEET_ENDPOINT = 'https://api.twitter.com/1.1/statuses/retweet/';
-    const DELETE_TWEET_ENDPOINT = 'https://api.twitter.com/1.1/statuses/destroy/';
+    const USER_TIMELINE_ENDPOINT = 'statuses/user_timeline.json';
+    const HOME_TIMELINE_ENDPOINT = 'statuses/home_timeline.json';
+    const MENTIONS_ENDPOINT = 'statuses/mentions_timeline.json';
+    const MY_RETWEETS_ENDPOINT = 'statuses/retweets_of_me.json';
+    const RETRIEVE_ENDPOINT = 'statuses/show/';
+    const RETWEETS_ENDPOINT = 'statuses/retweets/';
+    const UPDATE_ENDPOINT = 'statuses/update.json';
+    const SEND_RETWEET_ENDPOINT = 'statuses/retweet/';
+    const DELETE_TWEET_ENDPOINT = 'statuses/destroy/';
 
     /**
      * Use the options filter trait to eliminate unavailable query string params

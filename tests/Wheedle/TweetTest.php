@@ -51,7 +51,7 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         
         $this->client->expects($this->once())
             ->method('makeGetRequest')
-            ->with('https://api.twitter.com/1.1/statuses/show/1.json', []);
+            ->with('statuses/show/1.json', []);
             
         $tweet = new Tweet($this->client);
         $tweet->retrieve(1);
@@ -74,7 +74,7 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         
         $this->client->expects($this->once())
             ->method('makeGetRequest')
-            ->with('https://api.twitter.com/1.1/statuses/mentions_timeline.json', []);
+            ->with('statuses/mentions_timeline.json', []);
                 
         $tweet = new Tweet($this->client);
         $tweet->retrieveMentions();
@@ -97,7 +97,7 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         
         $this->client->expects($this->once())
             ->method('makeGetRequest')
-            ->with('https://api.twitter.com/1.1/statuses/user_timeline.json', ['count' => 20]);
+            ->with('statuses/user_timeline.json', ['count' => 20]);
             
         $tweet = new Tweet($this->client);
         $tweet->retrieveUserTimeline(['count' => '20']);
@@ -120,7 +120,7 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         
         $this->client->expects($this->once())
             ->method('makeGetRequest')
-            ->with('https://api.twitter.com/1.1/statuses/home_timeline.json', ['count' => 20]);
+            ->with('statuses/home_timeline.json', ['count' => 20]);
 
         $tweet = new Tweet($this->client);
         $tweet->retrieveHomeTimeline(['count' => 20]);
@@ -143,7 +143,7 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         
         $this->client->expects($this->once())
             ->method('makeGetRequest')
-            ->with('https://api.twitter.com/1.1/statuses/retweets_of_me.json', ['count' => 20]);
+            ->with('statuses/retweets_of_me.json', ['count' => 20]);
             
         $tweet = new Tweet($this->client);
         $tweet->retrieveMyRetweets(['count' => 20]);
@@ -166,7 +166,7 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         
         $this->client->expects($this->once())
             ->method('makeGetRequest')
-            ->with('https://api.twitter.com/1.1/statuses/retweets/1.json', ['count' => 20]);
+            ->with('statuses/retweets/1.json', ['count' => 20]);
 
         $tweet = new Tweet($this->client);
         $tweet->retrieveRetweets(1, ['count' => 20]);
@@ -190,7 +190,7 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         
         $this->client->expects($this->once())
             ->method('makePOSTRequest')
-            ->with('https://api.twitter.com/1.1/statuses/update.json', ['status' => 'This is a test tweet', 'trim_user' => true]);
+            ->with('statuses/update.json', ['status' => 'This is a test tweet', 'trim_user' => true]);
 
         $tweet = new Tweet($this->client);
         $tweet->create('This is a test tweet', ['trim_user' => true]);
@@ -212,8 +212,8 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         $this->client->setSignature($signature);
         
         $this->client->expects($this->once())
-            ->method('makePOSTRequest')
-            ->with('https://api.twitter.com/1.1/statuses/retweet/1.json', ['trim_user' => true]);
+            ->method('makePostRequest')
+            ->with('statuses/retweet/1.json', ['trim_user' => true]);
 
         $tweet = new Tweet($this->client);
         $tweet->retweet(1, ['trim_user' => true]);
@@ -235,8 +235,8 @@ class TweetTest extends \PHPUnit_Framework_TestCase
         $this->client->setSignature($signature);
         
         $this->client->expects($this->once())
-            ->method('makePOSTRequest')
-            ->with('https://api.twitter.com/1.1/statuses/destroy/1.json');
+            ->method('makePostRequest')
+            ->with('statuses/destroy/1.json');
 
         $tweet = new Tweet($this->client);
         $tweet->delete(1);
