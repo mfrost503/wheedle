@@ -56,4 +56,27 @@ class DirectMessageTest extends \PHPUnit_Framework_TestCase
         $tweet = new DirectMessage($this->client);
         $tweet->retrieveLatestMessages();
     }
+
+    /**
+     * Test to ensure the get method for sent DMs is being called correctly
+     */
+    public function testEnsureGetMethodIsCalledCorrectlyForSentDMS()
+    {
+        $signature = new HmacSha1($this->consumer, $this->access);
+        $signature->setHttpMethod('GET');
+        $signature->setResourceURL('https://api.twitter.com/1.1/direct_messages/sent.json');
+        $signature->setTimestamp(1114234234234);
+        $signature->setNonce('testNonce');
+        $header = new Header;
+        $header->setSignature($signature);
+        $expectedHeader = $header->createAuthorizationHeader();
+        $this->client->setSignature($signature);
+        
+        $this->client->expects($this->once())
+            ->method('makeGetRequest')
+            ->with('direct_messages/sent.json', []);
+            
+        $tweet = new DirectMessage($this->client);
+        $tweet->retrieveLatestSentMessages();
+    }
 }
