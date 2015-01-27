@@ -3,11 +3,11 @@ namespace Wheedle\Exceptions;
 
 /**
  * @author Matt Frost <mfrost.design@gmail.com>
- * @license http://opensource.org/licenses/MIT MIT
+ * @license http://opensource.org/license/MIT MIT
  * @package Wheedle
  * @subpackage Exceptions
  */
-class RateLimitExceededException extends \Exception
+class UnauthorizedRequestException extends \Exception
 {
 
 }
