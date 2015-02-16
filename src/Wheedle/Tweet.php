@@ -265,5 +265,4 @@ class Tweet
         $options = $this->filterOptions($availableOptions, $options);
         return $this->client->makePostRequest(self::DELETE_TWEET_ENDPOINT . $id . '.json', $options);
     }
-
 }
