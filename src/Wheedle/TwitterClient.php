@@ -325,7 +325,7 @@ class TwitterClient
             ]);
             return $response;
         } catch(\GuzzleHttp\Exception\ClientException $e) {
-            return $e->getMessage(;
+            return $e->getMessage();
         }
     }
 
