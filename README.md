@@ -17,6 +17,9 @@ use Snaggle\Client\Credentials\AccessCredentials;
 use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
+use Wheedle\Exceptions\RateLimitExceededException;
+use Wheedle\Exceptions\UnauthorizedRequestException;
+use \RuntimeException;
 
 $accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
@@ -26,7 +29,17 @@ $client = new TwitterClient($accessToken, $consumerToken);
 
 $tweet = new Tweet($client);
 
-$tweet->retrieveMentions();
+try {
+
+    $tweet->retrieveMentions();
+
+} catch (RuntimeException $e) {
+    // handle Runtime Exception
+} catch (RateLimitExceededException $e) {
+    // handle rate limit exceeded exception
+} catch (UnauthorizedRequestException $e) {
+    // handle unauthorized request
+}
 ```
 
 This example will retrieve the last 20 mentions for the authenticated user, but it's configureable to retrieve up to 200
@@ -61,6 +74,9 @@ use Snaggle\Client\Credentials\AccessCredentials;
 use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
+use Wheedle\Exceptions\RateLimitExceededException;
+use Wheedle\Exceptions\UnauthorizedRequestException;
+use \RuntimeException;
 
 $accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
@@ -70,7 +86,17 @@ $client = new TwitterClient($accessToken, $consumerToken);
 
 $tweet = new Tweet($client);
 
-$data = $tweet->retrieve(123456);
+try {
+
+    $data = $tweet->retrieve(123456);
+
+} catch (RuntimeException $e) {
+    // handle Runtime Exception
+} catch (RateLimitExceededException $e) {
+    // handle rate limit exceeded exception
+} catch (UnauthorizedRequestException $e) {
+    // handle unauthorized request
+}
 ```
 
 Optionally you can pass an array of parameters to give you back what you need, for retrieve the parameters are:
@@ -91,6 +117,9 @@ use Snaggle\Client\Credentials\AccessCredentials;
 use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
+use Wheedle\Exceptions\RateLimitExceededException;
+use Wheedle\Exceptions\UnauthorizedRequestException;
+use \RuntimeException;
 
 $accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
@@ -100,7 +129,17 @@ $client = new TwitterClient($accessToken, $consumerToken);
 
 $tweet = new Tweet($client);
 
-$data = $tweet->retrieveMentions();
+try {
+
+    $data = $tweet->retrieveMentions();
+
+} catch (RuntimeException $e) {
+    // handle Runtime Exception
+} catch (RateLimitExceededException $e) {
+    // handle rate limit exceeded exception
+} catch (UnauthorizedRequestException $e) {
+    // handle unauthorized request
+}
 ```
 
 The optional parameters for this method are:
@@ -122,6 +161,9 @@ use Snaggle\Client\Credentials\AccessCredentials;
 use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
+use Wheedle\Exceptions\RateLimitExceededException;
+use Wheedle\Exceptions\UnauthorizedRequestException;
+use \RuntimeException;
 
 $accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
@@ -130,8 +172,17 @@ $consumerToken = new ConsumerCredentials('YOUR_CONSUMER_KEY', 'YOUR_CONSUMER_SEC
 $client = new TwitterClient($accessToken, $consumerToken);
 
 $tweet = new Tweet($client);
+try {
 
-$data = $tweet->retrieveHomeTimeline();
+    $data = $tweet->retrieveHomeTimeline();
+
+} catch (RuntimeException $e) {
+    // handle Runtime Exception
+} catch (RateLimitExceededException $e) {
+    // handle rate limit exceeded exception
+} catch (UnauthorizedRequestException $e) {
+    // handle unauthorized request
+}
 ```
 
 The optional parameters for this method are:
@@ -153,6 +204,9 @@ use Snaggle\Client\Credentials\AccessCredentials;
 use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
+use Wheedle\Exceptions\RateLimitExceededException;
+use Wheedle\Exceptions\UnauthorizedRequestException;
+use \RuntimeException;
 
 $accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
@@ -162,7 +216,17 @@ $client = new TwitterClient($accessToken, $consumerToken);
 
 $tweet = new Tweet($client);
 
-$data = $tweet->retrieveUserTimeline();
+try {
+
+    $data = $tweet->retrieveUserTimeline();
+
+} catch (RuntimeException $e) {
+    // handle Runtime Exception
+} catch (RateLimitExceededException $e) {
+    // handle rate limit exceeded exception
+} catch (UnauthorizedRequestException $e) {
+    // handle unauthorized request
+}
 ```
 
 The optional parameters for this method are:
@@ -184,6 +248,9 @@ use Snaggle\Client\Credentials\AccessCredentials;
 use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
+use Wheedle\Exceptions\RateLimitExceededException;
+use Wheedle\Exceptions\UnauthorizedRequestException;
+use \RuntimeException;
 
 $accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
@@ -193,7 +260,17 @@ $client = new TwitterClient($accessToken, $consumerToken);
 
 $tweet = new Tweet($client);
 
-$data = $tweet->retrieveMyRetweets();
+try {
+
+    $data = $tweet->retrieveMyRetweets();
+
+} catch (RuntimeException $e) {
+    // handle Runtime Exception
+} catch (RateLimitExceededException $e) {
+    // handle rate limit exceeded exception
+} catch (UnauthorizedRequestException $e) {
+    // handle unauthorized request
+}
 ```
 
 The optional parameters for this method are:
@@ -215,6 +292,9 @@ use Snaggle\Client\Credentials\AccessCredentials;
 use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
+use Wheedle\Exceptions\RateLimitExceededException;
+use Wheedle\Exceptions\UnauthorizedRequestException;
+use \RuntimeException;
 
 $accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
@@ -224,7 +304,17 @@ $client = new TwitterClient($accessToken, $consumerToken);
 
 $tweet = new Tweet($client);
 
-$data = $tweet->retrieveRetweets(12345324);
+try {
+
+    $data = $tweet->retrieveRetweets(12345324);
+
+} catch (RuntimeException $e) {
+    // handle Runtime Exception
+} catch (RateLimitExceededException $e) {
+    // handle rate limit exceeded exception
+} catch (UnauthorizedRequestException $e) {
+    // handle unauthorized request
+}
 ```
 
 The optional parameters for this method are:
@@ -242,6 +332,9 @@ use Snaggle\Client\Credentials\AccessCredentials;
 use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
+use Wheedle\Exceptions\RateLimitExceededException;
+use Wheedle\Exceptions\UnauthorizedRequestException;
+use \RuntimeException;
 
 $accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
@@ -251,7 +344,17 @@ $client = new TwitterClient($accessToken, $consumerToken);
 
 $tweet = new Tweet($client);
 
-$data = $tweet->create(['status' => 'This is a brand new tweet']);
+try {
+
+    $data = $tweet->create(['status' => 'This is a brand new tweet']);
+
+} catch (RuntimeException $e) {
+    // handle Runtime Exception
+} catch (RateLimitExceededException $e) {
+    // handle rate limit exceeded exception
+} catch (UnauthorizedRequestException $e) {
+    // handle unauthorized request
+}
 ```
 
 The optional parameters for this method are:
@@ -275,6 +378,9 @@ use Snaggle\Client\Credentials\AccessCredentials;
 use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
+use Wheedle\Exceptions\RateLimitExceededException;
+use Wheedle\Exceptions\UnauthorizedRequestException;
+use \RuntimeException;
 
 $accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
@@ -284,7 +390,17 @@ $client = new TwitterClient($accessToken, $consumerToken);
 
 $tweet = new Tweet($client);
 
-$data = $tweet->retweet(12312432);
+try {
+
+    $data = $tweet->retweet(12312432);
+
+} catch (RuntimeException $e) {
+    // handle Runtime Exception
+} catch (RateLimitExceededException $e) {
+    // handle rate limit exceeded exception
+} catch (UnauthorizedRequestException $e) {
+    // handle unauthorized request
+}
 ```
 
 The optional parameters for this method are:
@@ -301,6 +417,9 @@ use Snaggle\Client\Credentials\AccessCredentials;
 use Snaggle\Client\Credentials\ConsumerCredentials;
 use Wheedle\TwitterClient;
 use Wheedle\Tweet;
+use Wheedle\Exceptions\RateLimitExceededException;
+use Wheedle\Exceptions\UnauthorizedRequestException;
+use \RuntimeException;
 
 $accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
 
@@ -310,7 +429,17 @@ $client = new TwitterClient($accessToken, $consumerToken);
 
 $tweet = new Tweet($client);
 
-$data = $tweet->delete(12312432);
+try {
+
+    $data = $tweet->delete(12312432);
+
+} catch (RuntimeException $e) {
+    // handle Runtime Exception
+} catch (RateLimitExceededException $e) {
+    // handle rate limit exceeded exception
+} catch (UnauthorizedRequestException $e) {
+    // handle unauthorized request
+}
 ```
 
 The optional parameters for this method are:
