@@ -245,11 +245,24 @@ class TwitterClient
      */
     public function getAuthorizationHeader()
     {
+        $header = $this->getHeader();
+        $signature = $this->prepareSignature();
+        $header->setSignature($signature);
+        return $header->createAuthorizationHeader();
+    }
+
+    /**
+     * Prepare the signature for use in the Authorization header
+     *
+     * @return Signature
+     */
+    private function prepareSignature()
+    {
         $signature = $this->getSignature();
         $signature->setResourceURL($this->resourceUrl);
         $signature->setHttpMethod($this->httpMethod);
         $signature->setPostFields($this->postFields);
-        
+
         if ($this->timestamp !== 0) {
             $signature->setTimestamp($this->timestamp);
         }
@@ -262,9 +275,7 @@ class TwitterClient
             $signature->setVerifier($this->verifier);
         }
 
-        $header = $this->getHeader();
-        $header->setSignature($signature);
-        return $header->createAuthorizationHeader();
+        return $signature;
     }
 
     /**
@@ -314,8 +325,7 @@ class TwitterClient
             ]);
             return $response;
         } catch(\GuzzleHttp\Exception\ClientException $e) {
-            return $e->getMessage() . "\n\n\n" . $this->getAuthorizationHeader();
-
+            return $e->getMessage(;
         }
     }
 
