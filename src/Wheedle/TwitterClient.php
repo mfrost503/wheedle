@@ -8,6 +8,9 @@ use \Snaggle\Client\Signatures\HmacSha1;
 use \Snaggle\Client\Signatures\SignatureInterface;
 use \Snaggle\Client\Credentials\AccessCredentials;
 use \Snaggle\Client\Credentials\ConsumerCredentials;
+use \Wheedle\Exceptions\UnauthorizedRequestException;
+use \Wheedle\Exceptions\RateLimitExceededException;
+use \RuntimeException;
 
 /**
  * A Twitter client that extends Guzzle or encapsulates the OAuth madness
@@ -284,6 +287,9 @@ class TwitterClient
      * @param string $endpoint - endpoint to hit
      * @param Array $options parameters for the query string
      * @return string response from the Twitter endpoint
+     * @throws UnauthorizedRequestException
+     * @throws RateLimitExceededException
+     * @throws RuntimeException
      */
     public function makeGetRequest($endpoint, $options)
     {
@@ -300,7 +306,14 @@ class TwitterClient
             ]);
             return $response->getBody();
         } catch (\GuzzleHttp\Exception\ClientException $e) {
-            return $e->getMessage();
+            switch ($e->getCode()) {
+                case 401:
+                    throw new UnauthorizedRequestException('The request you made was unable to be authorized');
+                case 429:
+                    throw new RateLimitExceededException;
+                default:
+                    throw new RuntimeException('The request you made wasn\'t able to be completed');
+            }
         }
     }
 
@@ -310,6 +323,9 @@ class TwitterClient
      * @param string $endpoint - end point to hit
      * @param Array $options - parameters/post body
      * @return string response from Twitter Endpoint
+     * @throws UnauthorizedRequestException
+     * @throws RateLimitExceededException
+     * @throws RuntimeException
      */
     public function makePostRequest($endpoint, $options)
     {
@@ -325,7 +341,14 @@ class TwitterClient
             ]);
             return $response;
         } catch(\GuzzleHttp\Exception\ClientException $e) {
-            return $e->getMessage();
+            switch ($e->getCode()) {
+                case 401:
+                    throw new UnauthorizedRequestException('The request you made was unable to be authorized');
+                case 429:
+                    throw new RateLimitExceededException;
+                default:
+                    throw new RuntimeException('The request you made wasn\'t able to be completed');
+            }
         }
     }
 
