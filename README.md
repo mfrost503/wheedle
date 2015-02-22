@@ -459,6 +459,19 @@ $client = new TwitterClient($accessToken, $consumerToken);
 $status = $client->get('statuses/show/1234567.json')
 ```
 
+Of course we still have the ability to add the optional parameters to this call, so if we take the call to ```$client->get``` above, we 
+can demonstrate how easy it is to add these parameters.
+
+```
+$params = ['trim_user' => true, 'include_entities' => true];
+$status = $client->get('statuses/show/1234567.json', $params);
+```
+
+Optionally, you could also build out the query string yourself using ```http_build_query``` however, the ```TwitterClient::get``` and 
+```TwitterClient::post``` interfaces were built to be used the same way. It's also important to note, the convenience methods will 
+remove any options that endpoint doesn't support. Using the client directly, you will have to ensure that all the optional params that
+you are using are available for that endpoint.
+
 Using the client requires a little bit of knowledge on how the Twitter API endpoints works, but a read through the documentation 
 should make everything pretty easy to understand. Using this method will throw exceptions the same way the convenience methods do,
 so you get the same targeted exceptions regardless of the method you choose to go with.
