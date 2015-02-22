@@ -12,17 +12,19 @@ Wheedle provides a common sense way to interacting with the Twitter API. Built u
 Here's an example of how easy is it to get started!
 
 Table of Contents:
-* [Tweet](#tweet)
-    * [Retrieve](#retrieve)
-    * [Mentions](#mentions)
-    * [Home Timeline](#home-timeline)
-    * [User Timeline](#user-timeline)
-    * [My Tweets](#my-tweets---retweeted-by-others)
-    * [Retrieve Retweets](#retrieve-retweets)
-    * [Send a tweet](#send-a-tweet)
-    * [Retweet an existing tweet](#retweet-an-existing-tweet)
-    * [Delete an existing tweet](#delete-an-existing-tweet)
-* [Direct Message](#direct-message)
+* [Convenience Classes Methods](#convenience-classes-methods)
+    * [Tweet](#tweet)
+        * [Retrieve](#retrieve)
+        * [Mentions](#mentions)
+        * [Home Timeline](#home-timeline)
+        * [User Timeline](#user-timeline)
+        * [My Tweets](#my-tweets---retweeted-by-others)
+        * [Retrieve Retweets](#retrieve-retweets)
+        * [Send a tweet](#send-a-tweet)
+        * [Retweet an existing tweet](#retweet-an-existing-tweet)
+        * [Delete an existing tweet](#delete-an-existing-tweet)
+    * [Direct Message](#direct-message)
+* [Direct Client Usage](#direct-client-usage)
 
 ### The Basics
 
@@ -34,6 +36,8 @@ particular endpoint, the options will be provided, however it may be necessary t
 The aim is to take the pain out of dealing with the Twitter API and other wrappers and libraries that don't give you what you need.
 We aim to provide as much convenience and ease of use as possible. If you see something that doesn't seem right or could be done better,
 contributions (issues, pull requests, feature requests) are always welcome.
+
+## Convenience Classes Methods
 
 ### Tweet
 
@@ -420,5 +424,38 @@ try {
 The optional parameters for this method are:
 
 * **trim_user** *boolean* when true returns the user object with only an ID
+
+## Direct Client Usage
+
+The convenience methods are great, they take a little bit extra to get set up, but certainly can make acceesing the API
+much easier. The reality is that every endpoint isn't going to be covered by a convenience method, so what this section is
+going to detail is how to use ```TwitterClient``` to make all the calls you require.
+
+If we look at a simple example it should be pretty easy to see how these calls are made. Let's say we want to retrieve the tweet 
+with the identifier of ```1234567```. Obviously with the convenience class and methods, we'd just instaniate a new ```Tweet``` instance
+and call the retrieve method with the id. With the client, it's almost as simple.
+
+```php
+<?php
+use Snaggle\Client\Credentials\AccessCredentials;
+use Snaggle\Client\Credentials\ConsumerCredentials;
+use Wheedle\TwitterClient;
+use Wheedle\Tweet;
+use Wheedle\Exceptions\RateLimitExceededException;
+use Wheedle\Exceptions\UnauthorizedRequestException;
+use \RuntimeException;
+
+$accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
+
+$consumerToken = new ConsumerCredentials('YOUR_CONSUMER_KEY', 'YOUR_CONSUMER_SECRET');
+
+$client = new TwitterClient($accessToken, $consumerToken);
+
+$status = $client->get('statuses/show/1234567.json')
+```
+
+Using the client requires a little bit of knowledge on how the Twitter API endpoints works, but a read through the documentation 
+should make everything pretty easy to understand. Using this method will throw exceptions the same way the convenience methods do,
+so you get the same targeted exceptions regardless of the method you choose to go with.
 
 
