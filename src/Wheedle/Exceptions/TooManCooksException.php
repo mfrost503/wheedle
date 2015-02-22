@@ -7,7 +7,7 @@ namespace Wheedle\Exceptions;
  * @package Wheedle
  * @subpackage Exceptions
  */
-class RateLimitExceededException extends TooManyCooksException
+class TooManyCooksException extends \Exception
 {
 
 }
