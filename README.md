@@ -19,6 +19,10 @@ Table of Contents:
     * [User Timeline](#user-timeline)
     * [My Tweets](#my-tweets---retweeted-by-others)
     * [Retrieve Retweets](#retrieve-retweets)
+    * [Send a tweet](#send-a-tweet)
+    * [Retweet an existing tweet](#retweet-an-existing-tweet)
+    * [Delete an existing tweet](#delete-an-existing-tweet)
+* [Direct Message](#direct-message)
 
 ### The Basics
 
