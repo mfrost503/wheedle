@@ -13,60 +13,25 @@ Here's an example of how easy is it to get started!
 
 Table of Contents:
 * [Tweet](#tweet)
+    * [Retrieve](#retrieve)
+    * [Mentions](#mentions)
+    * [Home Timeline](#home-timeline)
+    * [User Timeline](#user-timeline)
+    * [My Tweets](#my-tweets---retweeted-by-others)
+    * [Retrieve Retweets](#retrieve-retweets)
 
+### The Basics
+
+This library is a balance of convenience methods and an intuitive HTTP Client built on Guzzle. By utilizing Guzzle and Snaggle,
+we're able to minimize the amount of setup required to start making Authenticated API requests against the Twitter API. Nearly every
+endpoint in the Twitter API is going to have additional options that are available to you. If there is a convenience method for that
+particular endpoint, the options will be provided, however it may be necessary to consult [Twitter API Docs](https://dev.twitter.com/rest/public) for more information on your particular endpoint.
+
+The aim is to take the pain out of dealing with the Twitter API and other wrappers and libraries that don't give you what you need.
+We aim to provide as much convenience and ease of use as possible. If you see something that doesn't seem right or could be done better,
+contributions (issues, pull requests, feature requests) are always welcome.
 
 ### Tweet
-
-```php
-<?php
-use Snaggle\Client\Credentials\AccessCredentials;
-use Snaggle\Client\Credentials\ConsumerCredentials;
-use Wheedle\TwitterClient;
-use Wheedle\Tweet;
-use Wheedle\Exceptions\RateLimitExceededException;
-use Wheedle\Exceptions\UnauthorizedRequestException;
-use \RuntimeException;
-
-$accessToken = new AccessCredentials('YOUR_ACCESS_TOKEN', 'YOUR_ACCESS_SECRET');
-
-$consumerToken = new ConsumerCredentials('YOUR_CONSUMER_KEY', 'YOUR_CONSUMER_SECRET');
-
-$client = new TwitterClient($accessToken, $consumerToken);
-
-$tweet = new Tweet($client);
-
-try {
-
-    $tweet->retrieveMentions();
-
-} catch (RuntimeException $e) {
-    // handle Runtime Exception
-} catch (RateLimitExceededException $e) {
-    // handle rate limit exceeded exception
-} catch (UnauthorizedRequestException $e) {
-    // handle unauthorized request
-}
-```
-
-This example will retrieve the last 20 mentions for the authenticated user, but it's configureable to retrieve up to 200
-
-```php
-$tweet->retrieveMentions(['count' => 200]);
-```
-
-The vast majority (if not all) of these methods have optional parameters, each method will have them documented here. They are all optional, any combination of parameters will work. The basic format for adding parameters is:
-```php
-$parameters = [
-    'trim_user' => true, 
-    'include_my_retweet' => true, 
-    'include_entities' => false
-];
-$tweet->retrieve(123456, $parameters);
-```
-
-Methods may have more than one required parameter, so your parameters will always be last, after the required parameters.
-
-### Tweet [TweetLink]
 
 The Tweet class will allow you to retrieve and post tweets (or statuses).
 
