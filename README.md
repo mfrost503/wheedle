@@ -25,6 +25,11 @@ Table of Contents:
         * [Delete an existing tweet](#delete-an-existing-tweet)
     * [Direct Message](#direct-message)
 * [Direct Client Usage](#direct-client-usage)
+* [Exceptions](#exceptions)
+    * [RateLimitExceededException](#ratelimitexceededexception)
+    * [UnauthorizedRequestException](#unauthorizedrequestexception)
+    * [MissingResourceException](#missingresourceexception)
+    * [TooManyCooksException](#toomanycooksexception)
 
 ### The Basics
 
@@ -457,5 +462,36 @@ $status = $client->get('statuses/show/1234567.json')
 Using the client requires a little bit of knowledge on how the Twitter API endpoints works, but a read through the documentation 
 should make everything pretty easy to understand. Using this method will throw exceptions the same way the convenience methods do,
 so you get the same targeted exceptions regardless of the method you choose to go with.
+
+## Exceptions
+
+Wheedle has a couple different exception types that can be thrown. These exceptions will indicate that a specific call was unable
+to complete correctly. There are a number of reasons for a call to fail, for example: bad tokens, rate limit exceeded or an 
+attempt to make a call to a resource that doesn't exist. Below is a description of all the Exceptions that can be thrown.
+
+### RateLimitExceededException
+
+A RateLimitExceededException is thrown when a particular access token has exceeded the number of
+calls allowed during the specified duration. It is important to note that the number of calls and durations are set and maintained
+by Twitter. This exception generally relates to the HTTP status code ```429 Too Many Requests```.
+
+### UnauthorizedRequestException
+
+An UnauthorizedRequestException is thrown when an attempt is made to access a resource that the current credentials that don't belong 
+to that Access Token/Secret. The most common reason for this exception would be a mistyped token or token secret, but this is also used to 
+indicate that an authenticated user doesn't have access to the resource they are trying to access. This exception generally relates to
+HTTP Status Code ```401 Unauthorized```.
+
+### MissingResourceException
+
+A MissingResourceException is thrown when a call is made to an endpoint for which there is no resource. This could be due to a mistyped
+ID, a typo or some other clerical error. It's always important to check and make sure that you typed your endpoint and subsequent
+optional parameters correctly. This corresponds to HTTP status code ```404 Not Found```.
+
+### TooManyCooksException
+
+A TooManyCooksException is mostly just in here for fun. It's not required for use, nor will it ever be thrown directly. It can be used
+in place of the RateLimitExceededException in a catch block. To be clear, I wouldn't actually recommend using this exception. It's
+less descriptive and would probably be confusing. I added it because I wanted to and I thought it would be fun. A RateLimitExceededException will also be a TooManyCooksException type. So do with that what you will.
 
 
