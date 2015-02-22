@@ -13,7 +13,7 @@ Here's an example of how easy is it to get started!
 
 Table of Contents:
 
-* [TweetLink][]
+* [TweetLink]()
 
 
 ### Tweet
