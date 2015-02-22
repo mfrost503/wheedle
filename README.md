@@ -11,6 +11,13 @@ Wheedle provides a common sense way to interacting with the Twitter API. Built u
 
 Here's an example of how easy is it to get started!
 
+Table of Contents:
+
+* [TweetLink][]
+
+
+### Tweet
+
 ```php
 <?php
 use Snaggle\Client\Credentials\AccessCredentials;
@@ -60,7 +67,7 @@ $tweet->retrieve(123456, $parameters);
 
 Methods may have more than one required parameter, so your parameters will always be last, after the required parameters.
 
-### Tweet
+### Tweet [TweetLink]
 
 The Tweet class will allow you to retrieve and post tweets (or statuses).
 
