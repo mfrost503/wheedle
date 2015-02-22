@@ -12,8 +12,7 @@ Wheedle provides a common sense way to interacting with the Twitter API. Built u
 Here's an example of how easy is it to get started!
 
 Table of Contents:
-
-* [TweetLink]()
+* [Tweet](#tweet)
 
 
 ### Tweet
