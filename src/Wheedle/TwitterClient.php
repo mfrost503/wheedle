@@ -344,8 +344,10 @@ class TwitterClient
             switch ($e->getCode()) {
                 case 401:
                     throw new UnauthorizedRequestException('The request you made was unable to be authorized');
+                case 404:
+                    throw new MissingResourceException('The request you are trying to retrieve doesn\'t exist');
                 case 429:
-                    throw new RateLimitExceededException;
+                    throw new RateLimitExceededException('You have exceeded the Rate Limit and cannot make additional requests at this time');
                 default:
                     throw new RuntimeException('The request you made wasn\'t able to be completed');
             }
