@@ -19,7 +19,8 @@
         "mfrost503/snaggle": ">=0.3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "4.4.*"
+        "phpunit/phpunit": "4.4.*",
+        "whatthejeff/nyancat-phpunit-resultprinter": "~1.2"
     },
     "autoload": {
         "psr-4": {
