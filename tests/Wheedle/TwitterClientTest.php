@@ -18,12 +18,8 @@ class TwitterClientTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->header = new Header();
-        $this->accessToken = new AccessCredentials;
-        $this->accessToken->setIdentifier('12325234');
-        $this->accessToken->setSecret('abcdefg');
-        $this->consumerToken = new ConsumerCredentials;
-        $this->consumerToken->setIdentifier('badbadman');
-        $this->consumerToken->setSecret('1234569029zvaed');
+        $this->accessToken = new AccessCredentials('12325234', 'abcdefg');
+        $this->consumerToken = new ConsumerCredentials('badbadman', '1234569029zvaed');
         $this->signature = new HmacSha1($this->consumerToken, $this->accessToken);
         $this->twitter = new TwitterClient($this->accessToken, $this->consumerToken);
     }
