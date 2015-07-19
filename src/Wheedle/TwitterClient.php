@@ -343,13 +343,13 @@ class TwitterClient
         } catch(\GuzzleHttp\Exception\ClientException $e) {
             switch ($e->getCode()) {
                 case 401:
-                    throw new UnauthorizedRequestException('The request you made was unable to be authorized');
+                    throw new UnauthorizedRequestException($e->getMessage());
                 case 404:
-                    throw new MissingResourceException('The request you are trying to retrieve doesn\'t exist');
+                    throw new MissingResourceException($e->getMessage());
                 case 429:
-                    throw new RateLimitExceededException('You have exceeded the Rate Limit and cannot make additional requests at this time');
+                    throw new RateLimitExceededException($e->getMessage());
                 default:
-                    throw new RuntimeException('The request you made wasn\'t able to be completed');
+                    throw new RuntimeException($e->getMessage());
             }
         }
     }
