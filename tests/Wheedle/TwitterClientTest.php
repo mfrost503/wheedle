@@ -207,4 +207,17 @@ class TwitterClientTest extends \PHPUnit_Framework_TestCase
         $this->twitter->setClient($client);
         $get = $this->twitter->get($url, $options);
     }
+
+    /**
+     * Data provider for the exceptions
+     */
+    public function exceptionGenerator()
+    {
+        return [
+            [401, "Unauthorized"],
+            [404, "Missing Resource"],
+            [429, "Rate Limit Exceeded"],
+            [400, "Bad Request"]
+        ];
+    }
 }
