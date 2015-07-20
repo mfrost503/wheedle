@@ -19,7 +19,7 @@ trait OptionsFilter
      */
     public function filterOptions($availableOptions, $options)
     {
-        array_walk($options, function($value, $key) use ($availableOptions, &$options) {
+        array_walk($options, function ($value, $key) use ($availableOptions, &$options) {
             if (!in_array($key, $availableOptions)) {
                 unset($options[$key]);
             }

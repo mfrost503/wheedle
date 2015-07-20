@@ -9,5 +9,4 @@ namespace Wheedle\Exceptions;
  */
 class MissingResourceException extends \Exception
 {
-
 }

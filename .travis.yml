@@ -7,4 +7,6 @@ php:
 before_script:
   - curl http://getcomposer.org/installer | php
   - php composer.phar install
-script: bin/phpunit
+script:
+  - bin/phpcs --standard=PSR2 -p --ignore=vendor,examples,coverage .
+  - bin/phpunit

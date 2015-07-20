@@ -19,8 +19,12 @@ class DirectMessageTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->access = new AccessCredentials('1234567888', 'AbcDefG');
-        $this->consumer = new ConsumerCredentials('987654321', 'GfeDcbA');        
-        $this->client = $this->getMock('Wheedle\TwitterClient', ['makeGetRequest', 'makePostRequest'], [$this->access, $this->consumer]);
+        $this->consumer = new ConsumerCredentials('987654321', 'GfeDcbA');
+        $this->client = $this->getMock(
+            'Wheedle\TwitterClient',
+            ['makeGetRequest', 'makePostRequest'],
+            [$this->access, $this->consumer]
+        );
         $this->response = $this->getMockBuilder('GuzzleHttp\Message\Response')
             ->disableOriginalConstructor()
             ->getMock();

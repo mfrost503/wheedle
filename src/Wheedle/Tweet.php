@@ -40,7 +40,7 @@ class Tweet
 
     /**
      * Constructor
-     * 
+     *
      * @param TwitterClient $client
      */
     public function __construct(TwitterClient $client)
@@ -54,7 +54,8 @@ class Tweet
      * @param int $id
      * @param Array $options optional parameters to refine a search
      *   - trim_user boolean returns a user object with just numerical ID when true
-     *   - include_my_retweet boolean when true any tweets RT'd by authenticated user will have current_user_retweet node
+     *   - include_my_retweet boolean when true any tweets RT'd by authenticated user
+     *     will have current_user_retweet node
      *   - include_entites boolean entities node will be excluded when set to false
      * @return string
      */
