@@ -4,6 +4,8 @@ namespace Test;
 use Wheedle\TwitterClient;
 use GuzzleHttp\Client;
 use GuzzleHttp\Response;
+use GuzzleHttp\Request;
+use GuzzleHttp\Exception\ClientException;
 use Snaggle\Client\Header\Header;
 use Snaggle\Client\Signatures\HmacSha1;
 use Snaggle\Client\Credentials\AccessCredentials;
@@ -165,5 +167,44 @@ class TwitterClientTest extends \PHPUnit_Framework_TestCase
         $get = $this->twitter->get($url, $options);
         $data = json_decode($get, true);
         $this->assertEquals($data['test'], '123abc');
+    }
+
+    /**
+     * Test to ensure that makeGetRequest throws an appropriate error
+     * @expectedException \Wheedle\Exceptions\UnauthorizedRequestException
+     */
+    public function testEnsureMakeGetRequestThrowsExceptionCorrectly()
+    {
+        $url = 'statuses/show/460095281871073282.json';
+        $expectedURL = 'https://api.twitter.com/1.1/statuses/show/460095281871073282.json?trim_user=1';
+        $options = ['trim_user' => true];
+        $request = $this->getMockBuilder('\GuzzleHttp\Message\Request')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $response = $this->getMockBuilder('\GuzzleHttp\Message\Response')
+            ->setMethods(['getStatusCode'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $response->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue(401));
+        $exception = new \GuzzleHttp\Exception\ClientException("Unauthorized", $request, $response);
+        $this->twitter->setTimestamp(time());
+        $this->twitter->setNonce('1234abc');
+        $this->twitter->setHttpMethod('get');
+        $this->twitter->setResourceURL($expectedURL);
+        $authorizationHeader = $this->twitter->getAuthorizationHeader();
+        $client_options = [
+            'headers' => [
+                'Authorization' => $authorizationHeader
+            ]
+        ];
+        $client = $this->getMock('\GuzzleHttp\Client', ['get']);
+        $client->expects($this->once())
+            ->method('get')
+            ->with($expectedURL, $client_options)
+            ->will($this->throwException($exception));
+        $this->twitter->setClient($client);
+        $get = $this->twitter->get($url, $options);
     }
 }
