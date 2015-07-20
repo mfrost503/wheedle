@@ -335,7 +335,7 @@ class TwitterClient
                 ],
                 'body' => $options
             ]);
-            return $response;
+            return $response->getBody();
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             // protected method - used to throw exception based on status code
             $exception = $this->handleException($e);

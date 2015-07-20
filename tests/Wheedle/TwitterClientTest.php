@@ -170,6 +170,40 @@ class TwitterClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test to ensure that makeGetRequest operates correctly
+     */
+    public function testEnsureMakePostRequestOperatesCorrectly()
+    {
+        $url = 'statuses/show/460095281871073282.json';
+        $expectedURL = 'https://api.twitter.com/1.1/statuses/show/460095281871073282.json';
+        $options = ['name' => 'tester'];
+        $response = $this->getMock('\GuzzleHttp\Response', ['getBody']);
+        $response->expects($this->once())
+            ->method('getBody')
+            ->will($this->returnValue(json_encode(['test' => '123abc', 'name' => 'test-data'])));
+        $this->twitter->setTimestamp(time());
+        $this->twitter->setNonce('1234abc');
+        $this->twitter->setHttpMethod('POST');
+        $this->twitter->setResourceURL($expectedURL);
+        $authorizationHeader = $this->twitter->getAuthorizationHeader();
+        $client_options = [
+            'headers' => [
+                'Authorization' => $authorizationHeader
+            ],
+            'body' => $options
+        ];
+        $client = $this->getMock('\GuzzleHttp\Client', ['post']);
+        $client->expects($this->once())
+            ->method('post')
+            ->with($expectedURL, $this->isType('array'))
+            ->will($this->returnValue($response));
+        $this->twitter->setClient($client);
+        $post = $this->twitter->post($expectedURL, $options);
+        $data = json_decode($post, true);
+        $this->assertEquals($data['test'], '123abc');
+    }
+
+    /**
      * Test to ensure that makeGetRequest throws an appropriate error
      * @expectedException \Wheedle\Exceptions\UnauthorizedRequestException
      */
@@ -209,15 +243,49 @@ class TwitterClientTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test to ensure that makePostRequest throws an appropriate error
+     * @dataProvider exceptionGenerator
+     */
+    public function testEnsureMakePostRequestThrowsExceptionCorrectly($code, $message, $type)
+    {
+        $this->setExpectedException($type);
+        $url = 'statuses/show/460095281871073282.json';
+        $expectedURL = 'https://api.twitter.com/1.1/statuses/show/460095281871073282.json?trim_user=1';
+        $options = ['trim_user' => true];
+        $request = $this->getMockBuilder('\GuzzleHttp\Message\Request')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $response = $this->getMockBuilder('\GuzzleHttp\Message\Response')
+            ->setMethods(['getStatusCode'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $response->expects($this->once())
+            ->method('getStatusCode')
+            ->will($this->returnValue($code));
+        $exception = new \GuzzleHttp\Exception\ClientException($message, $request, $response);
+        $this->twitter->setTimestamp(time());
+        $this->twitter->setNonce('1234abc');
+        $this->twitter->setHttpMethod('get');
+        $this->twitter->setResourceURL($expectedURL);
+        $authorizationHeader = $this->twitter->getAuthorizationHeader();
+        $client = $this->getMock('\GuzzleHttp\Client', ['post']);
+        $client->expects($this->once())
+            ->method('post')
+            ->with($expectedURL, $this->isType('array'))
+            ->will($this->throwException($exception));
+        $this->twitter->setClient($client);
+        $post = $this->twitter->post($expectedURL);
+    }
+    /**
      * Data provider for the exceptions
      */
     public function exceptionGenerator()
     {
         return [
-            [401, "Unauthorized"],
-            [404, "Missing Resource"],
-            [429, "Rate Limit Exceeded"],
-            [400, "Bad Request"]
+            [401, "Unauthorized", "\Wheedle\Exceptions\UnauthorizedRequestException"],
+            [404, "Missing Resource", "\Wheedle\Exceptions\MissingResourceException"],
+            [429, "Rate Limit Exceeded", "\Wheedle\Exceptions\RateLimitExceededException"],
+            [400, "Bad Request", "\RuntimeException"]
         ];
     }
 }
