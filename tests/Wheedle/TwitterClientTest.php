@@ -139,8 +139,8 @@ class TwitterClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testEnsureMakeGetRequestOperatesCorrectly()
     {
-        $url = 'statuses/show/460095281871073282.json'; 
-        $expectedURL = 'https://api.twitter.com/1.1/statuses/show/460095281871073282.json?trim_user=1'; 
+        $url = 'statuses/show/460095281871073282.json';
+        $expectedURL = 'https://api.twitter.com/1.1/statuses/show/460095281871073282.json?trim_user=1';
         $options = ['trim_user' => true];
         $response = $this->getMock('\GuzzleHttp\Response', ['getBody']);
         $response->expects($this->once())
