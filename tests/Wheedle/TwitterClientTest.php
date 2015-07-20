@@ -3,6 +3,7 @@ namespace Test;
 
 use Wheedle\TwitterClient;
 use GuzzleHttp\Client;
+use GuzzleHttp\Response;
 use Snaggle\Client\Header\Header;
 use Snaggle\Client\Signatures\HmacSha1;
 use Snaggle\Client\Credentials\AccessCredentials;
@@ -15,6 +16,9 @@ use Snaggle\Client\Credentials\ConsumerCredentials;
  */
 class TwitterClientTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Setup
+     */
     public function setUp()
     {
         $this->header = new Header();
@@ -24,6 +28,9 @@ class TwitterClientTest extends \PHPUnit_Framework_TestCase
         $this->twitter = new TwitterClient($this->accessToken, $this->consumerToken);
     }
 
+    /**
+     * Tear Down
+     */
     public function tearDown()
     {
         unset($this->twitter);
@@ -31,6 +38,16 @@ class TwitterClientTest extends \PHPUnit_Framework_TestCase
         unset($this->accessToken);
         unset($this->consumerToken);
         unset($this->signature);
+    }
+
+    /**
+     * Test to ensure client can be set
+     */
+    public function testClientCanBeSet()
+    {
+        $client = new Client();
+        $this->twitter->setClient($client);
+        $this->assertInstanceOf('\GuzzleHttp\Client', $client);
     }
 
     /**
@@ -91,5 +108,62 @@ class TwitterClientTest extends \PHPUnit_Framework_TestCase
         $header = $this->twitter->getAuthorizationHeader();
         $this->assertGreaterThan(0, strpos($header, $matchSignature), $matchSignature . ' is not in ' . $header);
         $this->assertGreaterThan(0, strpos($header, $this->accessToken->getIdentifier()));
+    }
+
+    /**
+     * Test to ensure the verifier is being set in the header
+     */
+    public function testEnsureVerifierIsSet()
+    {
+        $verifier = '1234abc';
+        $this->twitter->setVerifier($verifier);
+        $this->twitter->setHttpMethod('get');
+        $this->twitter->setResourceURL('http://api.twitter.com/1.1/statues/show/1234567.json');
+        $header = $this->twitter->getAuthorizationHeader();
+        $this->assertContains('oauth_verifier="1234abc"', $header);
+    }
+
+    /**
+     * Test to ensure the Post Fields can be set to an array
+     */
+    public function testEnsurePostFieldsCanBeSet()
+    {
+        $postFields = ['name' => 'Twitter Client'];
+        $expected = ['name' => rawurlencode('Twitter Client')];
+        $this->twitter->setPostFields($postFields);
+        $this->assertAttributeEquals($expected, 'postFields', $this->twitter);
+    }
+
+    /**
+     * Test to ensure that makeGetRequest operates correctly
+     */
+    public function testEnsureMakeGetRequestOperatesCorrectly()
+    {
+        $url = 'statuses/show/460095281871073282.json'; 
+        $expectedURL = 'https://api.twitter.com/1.1/statuses/show/460095281871073282.json?trim_user=1'; 
+        $options = ['trim_user' => true];
+        $response = $this->getMock('\GuzzleHttp\Response', ['getBody']);
+        $response->expects($this->once())
+            ->method('getBody')
+            ->will($this->returnValue(json_encode(['test' => '123abc', 'name' => 'test-data'])));
+        $this->twitter->setTimestamp(time());
+        $this->twitter->setNonce('1234abc');
+        $this->twitter->setHttpMethod('get');
+        $this->twitter->setResourceURL($expectedURL);
+        $authorizationHeader = $this->twitter->getAuthorizationHeader();
+        $client_options = [
+            'headers' => [
+                'Authorization' => $authorizationHeader
+            ]
+        ];
+        $client = $this->getMock('\GuzzleHttp\Client', ['get']);
+        $client->expects($this->once())
+            ->method('get')
+            ->with($expectedURL, $client_options)
+            ->will($this->returnValue($response));
+        $this->twitter->setClient($client);
+        $get = $this->twitter->get($url, $options);
+        $data = json_decode($get, true);
+        $this->assertEquals($data['test'], '123abc');
     }
 }

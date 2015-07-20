@@ -9,6 +9,7 @@ use \Snaggle\Client\Signatures\SignatureInterface;
 use \Snaggle\Client\Credentials\AccessCredentials;
 use \Snaggle\Client\Credentials\ConsumerCredentials;
 use \Wheedle\Exceptions\UnauthorizedRequestException;
+use \Wheedle\Exceptions\MissingResourceException;
 use \Wheedle\Exceptions\RateLimitExceededException;
 use \RuntimeException;
 
@@ -235,7 +236,7 @@ class TwitterClient
      */
     public function setPostFields(Array $postFields)
     {
-        array_walk($postFields, function ($value, $key) use ($postFields) {
+        array_walk($postFields, function ($value, $key) use (&$postFields) {
             $postFields[$key] = rawurlencode($value);
         });
         $this->postFields = $postFields;
