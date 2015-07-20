@@ -30,42 +30,42 @@ class TwitterClient
 
     /**
      * Header object that is used to generate the OAuth 1.0 header
- 	 *
+      *
      * @var \Snaggle\Client\Header\Header $header
      */
     private $header;
 
     /**
      * A signature type used to generate the OAuth 1.0 signature
-	 *
+     *
      * @var \Snaggle\Client\Signatures\SignatureInterface $signature
      */
     private $signature;
 
     /**
      * A Snaggle\AccessCredentials instance with the appropriate key/secret
-	 *
+     *
      * @var \Snaggle\Client\Credentials\AccessCredentials
      */
     private $accessCredentials;
 
     /**
      * A Snaggle\ConsumerCredentials instance with the appropriate key/secret
-	 *
+     *
      * @var \Snaggle\Client\Credentials\ConsumerCredentials
      */
     private $consumerCredentials;
 
     /**
      * String representing the location of the resource
-	 *
+     *
      * @var string $resourceUrl
      */
     private $resourceUrl;
 
     /**
      * String representing the HTTP method with which to use the request
-	 *
+     *
      * @var string $httpMethod
      */
     private $httpMethod;
@@ -113,7 +113,7 @@ class TwitterClient
     {
         $this->accessCredentials = $accessCredentials;
         $this->consumerCredentials = $consumerCredentials;
-        $this->client = new Client(); 
+        $this->client = new Client();
     }
 
     /**
@@ -235,7 +235,7 @@ class TwitterClient
      */
     public function setPostFields(Array $postFields)
     {
-        array_walk($postFields, function($value, $key) use ($postFields) {
+        array_walk($postFields, function ($value, $key) use ($postFields) {
             $postFields[$key] = rawurlencode($value);
         });
         $this->postFields = $postFields;
@@ -335,12 +335,10 @@ class TwitterClient
                 'body' => $options
             ]);
             return $response;
-        } catch(\GuzzleHttp\Exception\ClientException $e) {
-
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
             // protected method - used to throw exception based on status code
-		    $exception = $this->handleException($e);
-            throw $exception;	
-
+            $exception = $this->handleException($e);
+            throw $exception;
         }
     }
 
@@ -354,16 +352,16 @@ class TwitterClient
     {
         switch ($e->getCode()) {
             case 401:
-                return new UnauthorizedRequestException('The request you made was unable to be authorized');
+                return new UnauthorizedRequestException($e->getMessage());
                 break;
             case 404:
-                return new MissingResourceException('The request you are trying to retrieve doesn\'t exist');
+                return new MissingResourceException($e->getMessage());
                 break;
             case 429:
-                return new RateLimitExceededException('You have exceeded the Rate Limit and cannot make additional requests at this time');
+                return new RateLimitExceededException($e->getMessage());
                 break;
             default:
-                return new RuntimeException('The request you made wasn\'t able to be completed');
+                return new RuntimeException($e->getMessage());
         }
     }
 
@@ -375,7 +373,7 @@ class TwitterClient
      */
     protected function preparePostOptions(Array $options)
     {
-        array_walk($options, function($value, $key) use (&$options) {
+        array_walk($options, function ($value, $key) use (&$options) {
             $options[$key] = rawurlencode($value);
         });
         return $options;
