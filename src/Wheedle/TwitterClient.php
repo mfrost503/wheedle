@@ -20,7 +20,7 @@ use \RuntimeException;
  * @license http://opensource.org/licenses/MIT MIT
  * @package Wheedle
  */
-class TwitterClient
+class TwitterClient implements ClientInterface
 {
     /**
      * HTTP Client capable of making HTTP Requests

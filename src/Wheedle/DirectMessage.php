@@ -33,7 +33,7 @@ class DirectMessage
      *
      * @param TwitterClient $client
      */
-    public function __construct(TwitterClient $client)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }
