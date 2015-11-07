@@ -8,15 +8,13 @@ use \Snaggle\Client\Signatures\HmacSha1;
 use \Snaggle\Client\Signatures\SignatureInterface;
 use \Snaggle\Client\Credentials\AccessCredentials;
 use \Snaggle\Client\Credentials\ConsumerCredentials;
-use \Wheedle\Exceptions\UnauthorizedRequestException;
-use \Wheedle\Exceptions\MissingResourceException;
-use \Wheedle\Exceptions\RateLimitExceededException;
+use \Wheedle\Exceptions as Exceptions;
 use \RuntimeException;
 
 /**
  * A Twitter client that extends Guzzle or encapsulates the OAuth madness
  *
- * @author Matt Frost
+ * @author  Matt Frost
  * @license http://opensource.org/licenses/MIT MIT
  * @package Wheedle
  */
@@ -107,7 +105,7 @@ class TwitterClient
     const TWITTER_BASE_ENDPOINT = 'https://api.twitter.com/1.1/';
 
     /**
-     * @param AccessCredentials $accessCredentials
+     * @param AccessCredentials   $accessCredentials
      * @param ConsumerCredentials $consumerCredentials
      */
     public function __construct(AccessCredentials $accessCredentials, ConsumerCredentials $consumerCredentials)
@@ -152,7 +150,6 @@ class TwitterClient
 
     /**
      * Accessor method to retrieve a set Signature or create a new instance
-     *
      */
     public function getSignature()
     {
@@ -236,9 +233,12 @@ class TwitterClient
      */
     public function setPostFields(Array $postFields)
     {
-        array_walk($postFields, function ($value, $key) use (&$postFields) {
-            $postFields[$key] = rawurlencode($value);
-        });
+        array_walk(
+            $postFields,
+            function ($value, $key) use (&$postFields) {
+                $postFields[$key] = rawurlencode($value);
+            }
+        );
         $this->postFields = $postFields;
     }
 
@@ -285,10 +285,11 @@ class TwitterClient
     /**
      * Method to execute a GET request
      *
-     * @param string $endpoint - endpoint to hit
-     * @param Array $options parameters for the query string
+     * @param  string $endpoint - endpoint to hit
+     * @param  Array  $options  parameters for the query string
      * @return string response from the Twitter endpoint
      * @throws UnauthorizedRequestException
+     * @throws BadRequestException
      * @throws RateLimitExceededException
      * @throws RuntimeException
      */
@@ -300,11 +301,14 @@ class TwitterClient
         $this->setHttpMethod('GET');
         $this->setResourceUrl($endpoint);
         try {
-            $response = $this->client->get($endpoint, [
+            $response = $this->client->get(
+                $endpoint,
+                [
                 'headers' => [
                     'Authorization' => $this->getAuthorizationHeader()
                 ]
-            ]);
+                ]
+            );
             return $response->getBody();
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             // protected method - used to throw exception based on status code
@@ -316,8 +320,8 @@ class TwitterClient
     /**
      * Method to execute a POST request
      *
-     * @param string $endpoint - end point to hit
-     * @param Array $options - parameters/post body
+     * @param  string $endpoint - end point to hit
+     * @param  Array  $options  - parameters/post body
      * @return string response from Twitter Endpoint
      * @throws UnauthorizedRequestException
      * @throws RateLimitExceededException
@@ -329,12 +333,15 @@ class TwitterClient
         $this->setResourceUrl(self::TWITTER_BASE_ENDPOINT . $endpoint);
         $this->setPostFields($this->preparePostOptions($options));
         try {
-            $response = $this->client->post($endpoint, [
+            $response = $this->client->post(
+                $endpoint,
+                [
                 'headers' => [
                     'Authorization' => $this->getAuthorizationHeader()
                 ],
                 'body' => $options
-            ]);
+                ]
+            );
             return $response->getBody();
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             // protected method - used to throw exception based on status code
@@ -346,45 +353,52 @@ class TwitterClient
     /**
      * Method to handle the selection of the correct exception to throw
      *
-     * @param \GuzzleHttp\Exception\ClientException $e - Guzzle Client Exception
+     * @param  \GuzzleHttp\Exception\ClientException $e - Guzzle Client Exception
      * @return mixed - Exception to throw
      */
     protected function handleException(ClientException $e)
     {
-        switch ($e->getCode()) {
-            case 401:
-                return new UnauthorizedRequestException($e->getMessage());
-                break;
-            case 404:
-                return new MissingResourceException($e->getMessage());
-                break;
-            case 429:
-                return new RateLimitExceededException($e->getMessage());
-                break;
-            default:
-                return new RuntimeException($e->getMessage());
+        $code = $e->getCode();
+        $message = $e->getMessage();
+        if ($e->hasResponse()) {
+            $message = $e->getResponse()->getBody(true);
         }
+        $exceptions = [
+            '400' => new Exceptions\BadRequestException($message),
+            '401' => new Exceptions\UnauthorizedRequestException($message),
+            '403' => new Exceptions\ForbiddenException($message),
+            '404' => new Exceptions\MissingResourceException($message),
+            '429' => new Exceptions\RateLimitExceededException($message)
+        ];
+
+        if (array_key_exists($code, $exceptions)) {
+            return $exceptions[$code];
+        }
+        return new RuntimeException($message);
     }
 
     /**
      * Method to prepare parameters for the base string by rawurlencoding them
      *
-     * @param Array $options parameters or post body
+     * @param  Array $options parameters or post body
      * @return Array array of options rawurlencoded
      */
     protected function preparePostOptions(Array $options)
     {
-        array_walk($options, function ($value, $key) use (&$options) {
-            $options[$key] = rawurlencode($value);
-        });
+        array_walk(
+            $options,
+            function ($value, $key) use (&$options) {
+                $options[$key] = rawurlencode($value);
+            }
+        );
         return $options;
     }
 
     /**
      * Wrapper method for makeGetRequest
      *
-     * @param string $endpoint end point to hit
-     * @param Array $options parameters
+     * @param  string $endpoint end point to hit
+     * @param  Array  $options  parameters
      * @return string response from Twitter Endpoint
      */
     public function get($endpoint, $options = [])
@@ -395,9 +409,9 @@ class TwitterClient
     /**
      * Wrapper method for makePostRequest
      *
-     * @param string $endpoint endpoint to hit
-     * @param Array $options parameters/post body
-     * @return string response from endpoint
+     * @param  string $endpoint endpoint to hit
+     * @param  Array  $options  parameters/post body
+     * @return string
      */
     public function post($endpoint, $options = [])
     {

@@ -285,7 +285,7 @@ class TwitterClientTest extends \PHPUnit_Framework_TestCase
             [401, "Unauthorized", "\Wheedle\Exceptions\UnauthorizedRequestException"],
             [404, "Missing Resource", "\Wheedle\Exceptions\MissingResourceException"],
             [429, "Rate Limit Exceeded", "\Wheedle\Exceptions\RateLimitExceededException"],
-            [400, "Bad Request", "\RuntimeException"]
+            [400, "Bad Request", "\Wheedle\Exceptions\BadRequestException"]
         ];
     }
 }

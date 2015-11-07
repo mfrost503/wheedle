@@ -7,7 +7,7 @@ use \GuzzleHttp\Exception\ClientException;
  * A collection of convenience methods for the direct message endpoints for
  * the twitter API
  *
- * @author Matt Frost <mfrost.design@gmail.com>
+ * @author  Matt Frost <mfrost.design@gmail.com>
  * @package Wheedle
  * @license MIT http://opensource.org/licenses/MIT
  */
@@ -42,7 +42,7 @@ class DirectMessage
      * Method to retrieve the most recent direct messages sent to the
      * authenticated user
      *
-     * @param Array $options
+     * @param  Array $options
      *   - since_id int returns results with an ID more recent than the provided ID
      *   - max_id int returns results with an ID older than the provided ID
      *   - count int number of results to return, up to 200, if omitted returns 20
@@ -67,7 +67,7 @@ class DirectMessage
      * Method to retrieve the most recent direct messages sent from the
      * authenticated user
      *
-     * @param Array $options
+     * @param  Array $options
      *   - since_id int returns results with an ID more recent than the provided ID
      *   - max_id int returns results with an ID older than the provided ID
      *   - count int number of results to return, up to 200, if omitted returns 20

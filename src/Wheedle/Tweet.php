@@ -7,7 +7,7 @@ use \GuzzleHttp\Exception\ClientException;
  * A collection of convenience methods for the statuses endpoints for
  * the twitter API
  *
- * @author Matt Frost <mfrost.design@gmail.com>
+ * @author  Matt Frost <mfrost.design@gmail.com>
  * @package Wheedle
  * @license MIT http://opensource.org/licenses/MIT
  */
@@ -51,8 +51,8 @@ class Tweet
     /**
      * Method to retrieve a tweet by id
      *
-     * @param int $id
-     * @param Array $options optional parameters to refine a search
+     * @param  int   $id
+     * @param  Array $options optional parameters to refine a search
      *   - trim_user boolean returns a user object with just numerical ID when true
      *   - include_my_retweet boolean when true any tweets RT'd by authenticated user
      *     will have current_user_retweet node
@@ -74,7 +74,7 @@ class Tweet
     /**
      * Retrieve a collection of mentions for the authenticated user
      *
-     * @param Array $options optional parameters to refine the output
+     * @param  Array $options optional parameters to refine the output
      *   - count int number of results to return, up to 200, if omitted returns 20
      *   - since_id int returns results with an ID more recent than the provided ID
      *   - max_id int returns results with an ID older than the provided ID
@@ -101,7 +101,7 @@ class Tweet
     /**
      * A method to return the tweets in a users timeline
      *
-     * @param Array $options optional parameters to refine a search
+     * @param  Array $options optional parameters to refine a search
      *   - user_id int user id for whom to return results for (if blank defaults to authenticated user)
      *   - screen_name string screen name for whom to return results for (if blank, defaults to authenticated user)
      *   - since_id int returns results with an ID more recent than the provided ID
@@ -135,7 +135,7 @@ class Tweet
     /**
      * Method to retrieve the home timeline for the authenticated user
      *
-     * @param Array $options
+     * @param  Array $options
      *   - count int number of results to return, up to 200, if omitted returns 20
      *   - since_id int returns results with an ID more recent than the provided ID
      *   - max_id int returns results with an ID older than the provided ID
@@ -162,7 +162,7 @@ class Tweet
     /**
      * Retrieving a collection of your tweets that were retweeted by others
      *
-     * @param Array $options
+     * @param  Array $options
      *   - count int number of results to return, up to 200, if omitted returns 20
      *   - since_id int returns results with an ID more recent than the provided ID
      *   - max_id int returns results with an ID older than the provided ID
@@ -189,8 +189,8 @@ class Tweet
     /**
      * Retrieve the retweets for a specific tweet
      *
-     * @param int $id ID of the tweet to retrieve the retweeters
-     * @param Array $options
+     * @param  int   $id      ID of the tweet to retrieve the retweeters
+     * @param  Array $options
      *   - count int number of results to return up to 100, 100 is the max allowed
      *   - trim_user boolean when true returns the user object with only an ID
      * @return string
@@ -209,8 +209,16 @@ class Tweet
     /**
      * Method to create a Tweet
      *
-     * @param string $status The status or tweet that will be sent
-     * @param Array $options Optional parameters for the request
+     * @param string $status  The status or tweet that will be sent
+     * @param Array  $options Optional parameters for the request
+     * - in_reply_to_status_id int the ID for the tweet you are replying to,
+     *   must @ mention original author - possibly_sensitive boolean should
+     *   be set when tweet contains nudity, violence or other gross stuff
+     *  - lat float latitude - long float longitude - place_id string a
+     *    place in the world - display_coordinates boolean when true will
+     *    put a pin an exact coordinates tweet was sent from - trim_user
+     *    boolean when true returns the user object with only an ID -
+     *    media_ids string a list of media ids to associate to a tweet
      *   - in_reply_to_status_id int the ID for the tweet you are replying to, must @ mention original author
      *   - possibly_sensitive boolean should be set when tweet contains nudity, violence or other gross stuff
      *   - lat float latitude
@@ -242,7 +250,7 @@ class Tweet
     /**
      * Method to retweet an existing tweet
      *
-     * @param int $id Id for a specific tweet to be retweeted
+     * @param int   $id      Id for a specific tweet to be retweeted
      * @param Array $options Optional parameters for the request
      *   - trim_user boolean when true returns the user object with only an ID
      */
@@ -256,7 +264,7 @@ class Tweet
     /**
      * Method for deleting a tweet that you've previously published
      *
-     * @param int $id id for the tweet to be deleted
+     * @param int   $id      id for the tweet to be deleted
      * @param Array $options Optional parameters for the request
      *   - trim_user boolean when true returns the user object with only an ID
      */
